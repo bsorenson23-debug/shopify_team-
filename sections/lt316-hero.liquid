@@ -7,7 +7,7 @@
   {% if section.settings.fit_mode == 'contain' %}data-fit="contain"{% endif %}
   style="
     --hero-width: {{ section.settings.hero_width | default: '100%' }};
-    --hero-height: {{ section.settings.hero_height | default: 'clamp(280px, 45vh, 1200px)' }};
+    --hero-height: {{ section.settings.hero_height | default: 'clamp(280px, 45vh, 640px)' }};
     --hero-max-width: {{ section.settings.hero_max_width | default: '1200px' }};
     --lt316-primary-bg: {{ section.settings.primary_button_bg }};
     --lt316-primary-text: {{ section.settings.primary_button_text }};
@@ -25,7 +25,7 @@
     {% if section.settings.image != blank %}
       {{
         section.settings.image
-        | image_url: width: 2200
+        | image_url: width: 4400
         | image_tag: loading: 'lazy', class: 'lt316-hero__img', alt: section.settings.image_alt | escape
       }}
     {% else %}
