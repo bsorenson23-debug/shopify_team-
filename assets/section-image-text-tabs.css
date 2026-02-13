@@ -1,0 +1,65 @@
+.image-text-tabs .tab-contents {
+  padding: 3rem;
+  display: flex;
+  align-items: center;
+  border-radius: var(--large-radius);
+}
+.image-text-tabs .tab-contents .tab-heading {
+  font-size: 1.75rem;
+  border-bottom: 1px solid rgba(var(--color-foreground), 0.1);
+  opacity: 0.3;
+}
+.image-text-tabs .tab-contents .tab-heading .caret-icon {
+  margin-inline-start: auto;
+  visibility: hidden;
+}
+.image-text-tabs .tab-contents .details-disclosure.has-opened .tab-heading {
+  opacity: 1;
+}
+.image-text-tabs .tab-contents .details-disclosure.has-opened .tab-heading .caret-icon {
+  visibility: visible;
+  animation: slideInFromLeft 300ms cubic-bezier(0, 0, 0.3, 1);
+}
+.image-text-tabs .tab-images {
+  position: relative;
+  border-radius: var(--large-radius);
+  overflow: hidden;
+}
+.image-text-tabs .tab-images .tab-image {
+  position: absolute;
+  inset-inline-start: 0;
+  inset-block-start: 0;
+  width: 100%;
+  height: 100%;
+}
+.image-text-tabs .tab-images .media-content {
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  padding: 1rem;
+}
+.image-text-tabs .tab-images .media-content .product-image {
+  width: 3.5rem;
+}
+@media screen and (max-width: 749px) {
+  .image-text-tabs .tab-images {
+    margin-block-start: 1rem;
+    height: 25rem;
+  }
+}
+@media screen and (min-width: 750px) {
+  .image-text-tabs {
+    display: flex;
+    align-items: stretch;
+    gap: 1rem;
+  }
+  .image-text-tabs .tab-contents {
+    width: 40%;
+  }
+  .image-text-tabs .tab-images {
+    flex: 1 1 auto;
+    min-height: 35rem;
+  }
+}

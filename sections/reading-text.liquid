@@ -1,0 +1,275 @@
+{{ 'section-reading-text.css' | asset_url | stylesheet_tag }}
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+  .section-{{ section.id }}-margin {
+    margin-top: {{ section.settings.margin_top | times: 0.75 | round: 0 }}px;
+    margin-bottom: {{ section.settings.margin_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+      .section-{{ section.id }}-padding {
+        padding-top: {{ section.settings.padding_top }}px;
+        padding-bottom: {{ section.settings.padding_bottom }}px;
+      }
+      .section-{{ section.id }}-margin {
+        margin-top: {{ section.settings.margin_top }}px;
+        margin-bottom: {{ section.settings.margin_bottom }}px;
+      }
+  }
+{%- endstyle -%}
+<div class="section-reading-text isolate color-{{ section.settings.color_scheme }} gradient section-{{ section.id }}-margin">
+  {%- if section.settings.texture_image != blank -%}
+    <div
+      class="texture-background-image media{% if section.settings.texture_fixed %} background--fixed{% endif %}"
+      style="opacity: {{ section.settings.texture_alpha }}%;"
+    >
+      {% render 'lazy-image', image_object: section.settings.texture_image %}
+    </div>
+  {%- endif -%}
+  <div class="section__wrapper reading-text__wrapper text-content text-align--center page-width section-{{ section.id }}-padding">
+    {% if section.settings.caption != blank %}
+      <div class="text-content-caption caption{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">
+        {{ section.settings.caption | escape }}
+      </div>
+    {% endif %}
+    <h2 class="text-content-heading heading-size--{{ section.settings.heading_size }}">
+      <reading-text
+        data-animation="{{ section.settings.animation | default: 'float-in' }}"
+        {% if section.settings.animation == 'color-change' %}
+          data-color-before="{{ section.settings.color_before }}"
+          data-color-after="{{ section.settings.color_after }}"
+        {% endif %}
+      >
+        {{- section.settings.heading | escape -}}
+      </reading-text>
+    </h2>
+    {%- if section.settings.button_label != blank or section.settings.secondary_button_label != blank -%}
+      <div class="text-content-buttons{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">
+        {%- render 'group-buttons',
+          button_label: section.settings.button_label,
+          button_label_uppercase: section.settings.button_label_uppercase,
+          button_link: section.settings.button_link,
+          button_style: section.settings.button_style,
+          button_arrow: section.settings.button_arrow
+        -%}
+      </div>
+    {%- endif -%}
+  </div>
+</div>
+<script src="{{ 'reading-text.js' | asset_url }}" defer></script>
+{% schema %}
+{
+  "name": "t:sections.reading-text.name",
+  "tag": "section",
+  "disabled_on": {
+    "groups": ["header", "footer", "custom.drawer", "custom.popup"]
+  },
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.scheme.label",
+      "default": "background-1"
+    },
+    {
+      "type": "image_picker",
+      "id": "texture_image",
+      "label": "t:sections.all.image.background_image_picker.label",
+      "info": "t:sections.all.banner.height.options__1.info"
+    },
+    {
+      "type": "range",
+      "id": "texture_alpha",
+      "label": "t:sections.all.image.image_opacity.label",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "%",
+      "default": 90
+    },
+    {
+      "type": "checkbox",
+      "id": "texture_fixed",
+      "label": "t:sections.all.image.image_fixed.label",
+      "default": false
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.text-content.header_content"
+    },
+    {
+      "type": "text",
+      "id": "caption",
+      "default": "Add a caption",
+      "label": "t:sections.all.text-content.caption.label"
+    },
+    {
+      "type": "textarea",
+      "id": "heading",
+      "label": "t:sections.all.text-content.heading.label",
+      "info": "t:sections.reading-text.settings.heading.info",
+      "default": "Please add a compelling slogan that captures the essence and values of your brand."
+    },
+    {
+      "type": "select",
+      "id": "heading_size",
+      "options": [
+        {
+          "value": "small",
+          "label": "t:sections.all.text-content.heading.size.options__1.label"
+        },
+        {
+          "value": "medium",
+          "label": "t:sections.all.text-content.heading.size.options__2.label"
+        },
+        {
+          "value": "large",
+          "label": "t:sections.all.text-content.heading.size.options__3.label"
+        },
+        {
+          "value": "super",
+          "label": "t:sections.all.text-content.heading.size.options__4.label"
+        }
+      ],
+      "default": "large",
+      "label": "t:sections.all.text-content.heading.size.label"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.button.header_content"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "t:sections.all.button.button_label.label",
+      "info": "t:sections.all.button.button_label.info"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "t:sections.all.button.button_link.label"
+    },
+    {
+      "type": "select",
+      "id": "button_style",
+      "default": "primary",
+      "label": "t:sections.all.button.button_style.label",
+      "options": [
+        {
+          "label": "t:sections.all.button.button_style.options__1.label",
+          "value": "primary"
+        },
+        {
+          "label": "t:sections.all.button.button_style.options__2.label",
+          "value": "secondary"
+        }
+      ]
+    },
+    {
+      "type": "checkbox",
+      "id": "button_arrow",
+      "label": "t:sections.all.button.button_arrow.label",
+      "default": false
+    },
+    {
+      "type": "header",
+      "content": "t:sections.reading-text.settings.header_animation.content"
+    },
+    {
+      "type": "select",
+      "id": "animation",
+      "label": "t:sections.reading-text.settings.animation.label",
+      "options": [
+        {
+          "value": "float-in",
+          "label": "t:sections.reading-text.settings.animation.options__1.label"
+        },
+        {
+          "value": "darken",
+          "label": "t:sections.reading-text.settings.animation.options__2.label"
+        },
+        {
+          "value": "color-change",
+          "label": "t:sections.reading-text.settings.animation.options__3.label"
+        },
+        {
+          "value": "hollow",
+          "label": "t:sections.reading-text.settings.animation.options__4.label"
+        }
+      ],
+      "default": "hollow"
+    },
+    {
+      "type": "color",
+      "id": "color_before",
+      "label": "t:sections.reading-text.settings.color_before.label",
+      "default": "#B500B5",
+      "visible_if": "{{ section.settings.animation == 'color-change' }}"
+    },
+    {
+      "type": "color",
+      "id": "color_after",
+      "label": "t:sections.reading-text.settings.color_after.label",
+      "default": "#FFD600",
+      "visible_if": "{{ section.settings.animation == 'color-change' }}"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.padding.header_content"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_top.label",
+      "default": 48
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_bottom.label",
+      "default": 48
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.margin.header_content"
+    },
+    {
+      "type": "range",
+      "id": "margin_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.margin.margin_top.label",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "margin_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.margin.margin_bottom.label",
+      "default": 80
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:sections.reading-text.presets.name",
+      "category": "t:sections.all.category.functional-widgets"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,26 @@
+.reading-text__wrapper .text-content-heading {
+  font-size: 1.25rem;
+}
+.reading-text__wrapper .text-content-heading.heading-size--medium {
+  font-size: 2.5rem;
+}
+.reading-text__wrapper .text-content-heading.heading-size--large {
+  font-size: 4rem;
+}
+.reading-text__wrapper .text-content-heading.heading-size--super {
+  font-size: 6rem;
+}
+@media screen and (max-width: 749px) {
+  .reading-text__wrapper .text-content-heading {
+    font-size: 1rem;
+  }
+  .reading-text__wrapper .text-content-heading.heading-size--medium {
+    font-size: 2rem;
+  }
+  .reading-text__wrapper .text-content-heading.heading-size--large {
+    font-size: 3rem;
+  }
+  .reading-text__wrapper .text-content-heading.heading-size--super {
+    font-size: 4rem;
+  }
+}

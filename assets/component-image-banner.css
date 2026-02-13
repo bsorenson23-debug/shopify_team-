@@ -1,0 +1,126 @@
+@charset "UTF-8";
+.image-banner__wrapper {
+  display: flex;
+  position: relative;
+}
+.image-banner__wrapper .banner-media {
+  position: absolute;
+  inset-inline-start: 0;
+  inset-block-start: 0;
+  width: 100%;
+  height: 100%;
+}
+.image-banner__wrapper .banner-media:after {
+  /* 设置遮罩 */
+  content: "";
+  position: absolute;
+  inset-inline-start: 0;
+  inset-block-start: 0;
+  inset-inline-end: 0;
+  inset-block-end: 0;
+  background: rgba(var(--color-shadow), var(--alpha-shadow));
+  z-index: 1;
+  pointer-events: none;
+}
+@media screen and (min-width: 750px) and (prefers-reduced-motion: no-preference) {
+  .image-banner__wrapper .banner-media.scroll-synergy img,
+  .image-banner__wrapper .banner-media.scroll-synergy svg {
+    visibility: hidden;
+    opacity: 0;
+  }
+  .image-banner__wrapper .banner-media.scroll-synergy[data-init=true] img,
+  .image-banner__wrapper .banner-media.scroll-synergy[data-init=true] svg {
+    visibility: visible;
+    animation: fadeIn 1200ms cubic-bezier(0, 0, 0.3, 1) forwards;
+  }
+  .image-banner__wrapper .banner-media.scroll-synergy.synergy--zoom-in {
+    --zoom-in-ratio: 1;
+  }
+  .image-banner__wrapper .banner-media.scroll-synergy.synergy--zoom-in img,
+  .image-banner__wrapper .banner-media.scroll-synergy.synergy--zoom-in svg {
+    transform: scale(var(--zoom-in-ratio));
+  }
+  .image-banner__wrapper .banner-media.scroll-synergy.synergy--parallax img,
+  .image-banner__wrapper .banner-media.scroll-synergy.synergy--parallax svg {
+    height: 150%;
+    inset-block-start: calc(-50% * var(--parallax-ratio));
+  }
+}
+.image-banner__wrapper .banner-media.synergy--fixed {
+  clip-path: inset(-1px);
+}
+.image-banner__wrapper .banner-media.synergy--fixed img,
+.image-banner__wrapper .banner-media.synergy--fixed svg {
+  position: fixed;
+  height: 100dvh;
+}
+.image-banner__wrapper .banner-media.synergy--ambient img,
+.image-banner__wrapper .banner-media.synergy--ambient svg {
+  animation: ambientMove 30s linear infinite;
+}
+.image-banner__wrapper .banner-content {
+  padding-block-start: 2rem;
+  padding-block-end: 2rem;
+  width: 100%;
+  display: flex;
+  z-index: 1;
+}
+.image-banner__wrapper .banner-content .banner-box {
+  position: relative;
+}
+.image-banner__wrapper .banner-content .banner-box .text-content-heading {
+  font-size: 3rem;
+}
+.image-banner__wrapper .banner-content .banner-box .text-content-heading p {
+  margin-block-end: 1rem;
+}
+.image-banner__wrapper .banner-content .banner-box .text-content-heading.heading-size--small {
+  font-size: 2rem;
+}
+.image-banner__wrapper .banner-content .banner-box .text-content-heading.heading-size--large {
+  font-size: 4rem;
+}
+.image-banner__wrapper .banner-content.adapter-transparent-header {
+  padding-block-start: calc(var(--header-height, 5rem) + 2rem);
+}
+.image-banner__wrapper .banner-link {
+  position: absolute;
+  inset-inline-start: 0;
+  inset-block-start: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+.image-banner__wrapper.banner-box--transparent .banner-content .banner-box {
+  background: transparent;
+  box-shadow: none;
+}
+.image-banner__wrapper:not(.banner-box--transparent) .banner-content .banner-box {
+  padding: 3rem;
+  box-shadow: 0 0 0.5rem 0 rgba(var(--color-shadow), 0.2);
+  position: relative;
+  border-radius: var(--medium-radius);
+}
+.image-banner__wrapper:not(.banner-box--transparent) .banner-content .banner-box:after {
+  content: "";
+  position: absolute;
+  inset-block-start: 0;
+  inset-inline-end: 0;
+  inset-block-end: 0;
+  inset-inline-start: 0;
+  box-shadow: inset 0 0 0 1px rgba(var(--color-foreground), 0.05);
+  border-radius: var(--medium-radius);
+  pointer-events: none;
+  z-index: 1;
+}
+@media screen and (max-width: 749px) {
+  .image-banner__wrapper .banner-content .banner-box .text-content-heading {
+    font-size: 1.5rem;
+  }
+  .image-banner__wrapper .banner-content .banner-box .text-content-heading.heading-size--small {
+    font-size: 1.25rem;
+  }
+  .image-banner__wrapper .banner-content .banner-box .text-content-heading.heading-size--large {
+    font-size: 2rem;
+  }
+}

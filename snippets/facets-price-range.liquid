@@ -1,0 +1,133 @@
+{% comment %}
+  价格区间筛选器
+  Accepts:
+    - filter: {Object}
+    - id: {String}
+
+  Usages:
+    {% render 'facets-price-range' %}
+{% endcomment %}
+{% liquid
+  assign currencies_using_comma_decimals = 'ANG,ARS,BRL,BYN,BYR,CLF,CLP,COP,CRC,CZK,DKK,EUR,HRK,HUF,IDR,ISK,MZN,NOK,PLN,RON,RUB,SEK,TRY,UYU,VES,VND' | split: ','
+  assign uses_comma_decimals = false
+  if currencies_using_comma_decimals contains cart.currency.iso_code
+    assign uses_comma_decimals = true
+  endif
+%}
+<price-range class="facets-price no-js-hidden">
+  <div class="range-slider-wrapper">
+    <div class="range-progress"></div>
+    <label for="Filter-{{ id }}-{{ filter.label | escape }}-GTE" class="visually-hidden">
+      {{- 'products.facets.price_min' | t -}}
+    </label>
+    <input
+      id="Filter-{{ id }}-{{ filter.label | escape }}-GTE"
+      class="range-min"
+      type="range"
+      min="0"
+      {%- if uses_comma_decimals -%}
+        max="{{ filter.range_max | money_without_currency | replace: '.', '' | replace: ',', '.' | ceil }}"
+      {%- else %}
+        max="{{ filter.range_max | money_without_currency | replace: ',', '' | ceil }}"
+      {%- endif -%}
+      step="1"
+      {%- if filter.min_value.value -%}
+        {%- if uses_comma_decimals -%}
+          value="{{ filter.min_value.value | money_without_currency | replace: '.', '' | replace: ',', '.' | ceil }}"
+        {%- else -%}
+          value="{{ filter.min_value.value | money_without_currency | replace: ',', '' | ceil }}"
+        {%- endif %}
+      {%- else -%}
+        value="0"
+      {%- endif -%}
+    >
+
+    <label for="Filter-{{ id }}-{{ filter.label | escape }}-LTE" class="visually-hidden">
+      {{- 'products.facets.price_max' | t -}}
+    </label>
+    <input
+      id="Filter-{{ id }}-{{ filter.label | escape }}-LTE"
+      class="range-max"
+      type="range"
+      min="0"
+      {%- if uses_comma_decimals -%}
+        max="{{ filter.range_max | money_without_currency | replace: '.', '' | replace: ',', '.' | ceil }}"
+      {%- else %}
+        max="{{ filter.range_max | money_without_currency | replace: ',', '' | ceil }}"
+      {%- endif -%}
+      step="1"
+      {%- if filter.max_value.value -%}
+        {%- if uses_comma_decimals -%}
+          value="{{ filter.max_value.value | money_without_currency | replace: '.', '' | replace: ',', '.' | ceil }}"
+        {%- else -%}
+          value="{{ filter.max_value.value | money_without_currency | replace: ',', '' | ceil }}"
+        {%- endif %}
+      {%- else -%}
+        {%- if uses_comma_decimals -%}
+          value="{{ filter.range_max | money_without_currency | replace: '.', '' | replace: ',', '.' | ceil }}"
+        {% else %}
+          value="{{ filter.range_max | money_without_currency | replace: ',', '' | ceil }}"
+        {% endif %}
+      {%- endif -%}
+    >
+  </div>
+  <div class="range-values">
+    <div class="field">
+      <small class="light">{{ cart.currency.symbol }}</small>
+      <input
+        id="Filter-{{ id }}-{{ filter.label | escape }}-Min"
+        class="field-input input-min"
+        type="number"
+        name="{{ filter.min_value.param_name }}"
+        inputmode="numeric"
+        min="0"
+        {%- if uses_comma_decimals -%}
+          max="{{ filter.range_max | money_without_currency | replace: '.', '' | replace: ',', '.' | ceil }}"
+        {%- else %}
+          max="{{ filter.range_max | money_without_currency | replace: ',', '' | ceil }}"
+        {%- endif -%}
+        {%- if filter.min_value.value -%}
+          {%- if uses_comma_decimals -%}
+            value="{{ filter.min_value.value | money_without_currency | replace: '.', '' | replace: ',', '.' | ceil }}"
+          {%- else -%}
+            value="{{ filter.min_value.value | money_without_currency | replace: ',', '' | ceil }}"
+          {%- endif %}
+        {%- endif -%}
+        placeholder="0"
+      >
+      <label class="field-label" for="Filter-{{ id }}-{{ filter.label | escape }}-Min">0</label>
+    </div>
+    <span class="lowercase light">{{ 'products.facets.to' | t }}</span>
+    <div class="field">
+      <small class="light">{{ cart.currency.symbol }}</small>
+      <input
+        id="Filter-{{ id }}-{{ filter.label | escape }}-Max"
+        class="field-input input-max"
+        type="number"
+        name="{{ filter.max_value.param_name }}"
+        inputmode="numeric"
+        min="0"
+        {%- if uses_comma_decimals -%}
+          max="{{ filter.range_max | money_without_currency | replace: '.', '' | replace: ',', '.' | ceil }}"
+        {%- else %}
+          max="{{ filter.range_max | money_without_currency | replace: ',', '' | ceil }}"
+        {%- endif -%}
+        {%- if filter.max_value.value -%}
+          {%- if uses_comma_decimals -%}
+            value="{{ filter.max_value.value | money_without_currency | replace: '.', '' | replace: ',', '.' | ceil }}"
+          {%- else -%}
+            value="{{ filter.max_value.value | money_without_currency | replace: ',', '' | ceil }}"
+          {%- endif %}
+        {%- endif -%}
+        placeholder="{{ filter.range_max }}"
+      >
+      <label class="field-label" for="Filter-{{ id }}-{{ filter.label | escape }}-Max">
+        {%- if uses_comma_decimals -%}
+          {{ filter.range_max | money_without_currency | replace: '.', '' | replace: ',', '.' | ceil }}
+        {%- else -%}
+          {{ filter.range_max | money_without_currency | replace: ',', '' | ceil }}
+        {%- endif -%}
+      </label>
+    </div>
+  </div>
+</price-range>

@@ -1,0 +1,23 @@
+.search-drawer .drawer-content {
+  padding-block-start: 1rem;
+}
+.search-drawer .search-wrapper {
+  display: block;
+  height: 100%;
+}
+.search-drawer .search-wrapper .search-form {
+  height: 100%;
+  display: grid;
+  grid-template-rows: auto 1fr;
+}
+.search-drawer .search-wrapper .search-form .search-container {
+  padding-block-start: 1rem;
+  display: grid;
+  grid-template-rows: 1fr auto;
+  gap: 0.5rem;
+}
+.search-drawer .search-wrapper .search-form .search-container .search-trending-main {
+  display: grid;
+  grid-template-rows: 1fr auto;
+  gap: 1rem;
+}

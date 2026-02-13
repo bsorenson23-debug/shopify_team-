@@ -1,0 +1,88 @@
+.video-with-text__wrapper {
+  display: flex;
+  align-items: stretch;
+  flex-direction: row;
+  gap: 1rem;
+}
+.video-with-text__wrapper .video-item {
+  border-radius: var(--large-radius);
+  overflow: hidden;
+}
+.video-with-text__wrapper .video-item .mute-button {
+  position: absolute;
+  inset-inline-start: 0.5rem;
+  inset-block-start: 0.5rem;
+  z-index: 1;
+  --alpha-button-background: 0.1;
+  --color-button: var(--color-shadow);
+  --color-button-text: var(--color-light);
+}
+.video-with-text__wrapper .text-item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem;
+  border-radius: var(--large-radius);
+  overflow: hidden;
+}
+.video-with-text__wrapper .text-item .text-content {
+  max-width: 45rem;
+}
+.video-with-text__wrapper .text-item .text-content .text-content-socials .social-item {
+  --icon-width: 1.5rem;
+}
+.video-with-text__wrapper .text-item .text-content .text-content-buttons:not(:first-child) {
+  margin-block-start: 2rem;
+}
+@media screen and (max-width: 749px) {
+  .video-with-text__wrapper {
+    flex-direction: column;
+  }
+  .video-with-text__wrapper .video-item,
+  .video-with-text__wrapper .text-item {
+    width: 100%;
+  }
+  .video-with-text__wrapper .video-item .media {
+    --padding-bottom: 15rem;
+  }
+  .video-with-text__wrapper .video-item.height--medium .media {
+    --padding-bottom: 20rem;
+  }
+  .video-with-text__wrapper .video-item.height--large .media {
+    --padding-bottom: 30rem;
+  }
+  .video-with-text__wrapper .video-item.height--adapt .media {
+    --padding-bottom: var(--ratio-percent, 20rem);
+  }
+}
+@media screen and (min-width: 750px) {
+  .video-with-text__wrapper .video-item {
+    flex: 0 0 auto;
+    width: 40%;
+  }
+  .video-with-text__wrapper .video-item .media {
+    --padding-bottom: 25rem;
+  }
+  .video-with-text__wrapper .video-item.width--medium {
+    width: 50%;
+  }
+  .video-with-text__wrapper .video-item.width--large {
+    width: 60%;
+  }
+  .video-with-text__wrapper .video-item.height--medium .media {
+    --padding-bottom: 35rem;
+  }
+  .video-with-text__wrapper .video-item.height--large .media {
+    --padding-bottom: 45rem;
+  }
+  .video-with-text__wrapper .video-item.height--adapt .media {
+    --padding-bottom: var(--ratio-percent, 30rem);
+  }
+  .video-with-text__wrapper .text-item {
+    flex: 1 1 auto;
+  }
+  .video-with-text__wrapper.video-with-text--reverse .video-item {
+    order: 2;
+  }
+}

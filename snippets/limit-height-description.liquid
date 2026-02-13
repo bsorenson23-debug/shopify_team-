@@ -1,0 +1,39 @@
+{% comment %}
+  限制高度富文本描述
+
+  Accepts:
+      - id: {String}
+      - content: {String}
+      - if_limit_height: {Boolean} 是否限制高度
+      - limit_height: {String} 限制的高度, defaut: 5rem
+
+  Render:
+      {% render 'limit-height-description' %}
+{% endcomment %}
+<expandable-container
+  id="{{ id }}"
+  {% if if_limit_height %}
+    data-limit-height
+    style="--limit-height: {{ limit_height | default: '5rem' }};"
+  {% endif %}
+>
+  <div class="content-main rte">
+    {{ content }}
+  </div>
+  {%- if if_limit_height -%}
+    <div class="expand-button-wrapper">
+      <button
+        class="expand-button button--clear link link-text show-underline"
+        aria-controls="{{ id }}"
+        aria-expanded="false"
+      >
+        <span class="read-more-text">
+          {{ 'general.read_more' | t }}
+        </span>
+        <span class="read-less-text hidden">
+          {{ 'general.read_less' | t }}
+        </span>
+      </button>
+    </div>
+  {%- endif -%}
+</expandable-container>

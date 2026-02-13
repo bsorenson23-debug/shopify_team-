@@ -1,0 +1,106 @@
+{% comment %}
+  Render share link
+  Accepts:
+    - link: {Url} The URL to share.
+    - title: {String} The title or description for the shared content.
+    - media: {Object} Image object for sharing (used by Pinterest).
+    - style: {Enum} Style of the share links: icon | border | wrapper | solid.
+    - show_tooltip: {Boolean} Whether to display tooltips.
+
+  Usage:
+      {% render 'share-link', link: link, title: title, media: media %}
+{% endcomment %}
+
+<ul class="list-social social-style--{{ style | default: 'icon' }}">
+  <li
+    class="social-item"
+    {% if show_tooltip == true %}
+      data-toggle="tooltip"
+      data-title="{{ 'general.share.copy_to_clipboard' | t }}"
+    {% endif %}
+  >
+    <custom-copy-text
+      class="d-inline-block"
+      role="button"
+      data-text="{{ link }}"
+      data-message="{{ 'general.share.success_message' | t }}"
+      tabindex="0"
+    >
+      {%- render 'icon-sets', icon: 'link' -%}
+      <span class="visually-hidden">{{ 'general.share.copy_to_clipboard' | t }}</span>
+    </custom-copy-text>
+  </li>
+  {%- if settings.enable_share_facebook -%}
+    <li
+      class="social-item"
+      {% if show_tooltip == true %}
+        data-toggle="tooltip"
+        data-title="{{ 'general.share.to' | t }} {{ 'general.social.links.facebook' | t }}"
+      {% endif %}
+    >
+      <a
+        href="{{ "https://www.facebook.com/sharer/sharer.php?u=" | append: link }}"
+        target="_blank"
+        class="list-social-link link"
+      >
+        {%- render 'icon-sets', icon: 'meta' -%}
+        <span class="visually-hidden">{{ 'general.social.links.facebook' | t }}</span>
+      </a>
+    </li>
+  {%- endif -%}
+  {%- if settings.enable_share_twitter -%}
+    <li
+      class="social-item"
+      {% if show_tooltip == true %}
+        data-toggle="tooltip"
+        data-title="{{ 'general.share.to' | t }} {{ 'general.social.links.twitter' | t }}"
+      {% endif %}
+    >
+      <a
+        href="{{ "https://twitter.com/intent/tweet?url=" | append: link | append: "&text=" | append: title }}"
+        target="_blank"
+        class="list-social-link link"
+      >
+        {%- render 'icon-sets', icon: 'twitter' -%}
+        <span class="visually-hidden">{{ 'general.social.links.twitter' | t }}</span>
+      </a>
+    </li>
+  {%- endif -%}
+  {%- if settings.enable_share_pinterest -%}
+    <li
+      class="social-item"
+      {% if show_tooltip == true %}
+        data-toggle="tooltip"
+        data-title="{{ 'general.share.to' | t }} {{ 'general.social.links.pinterest' | t }}"
+      {% endif %}
+    >
+      {% assign media_url = media | image_url: width: 300 %}
+      <a
+        href="{{ "https://pinterest.com/pin/create/button/?url=" | append: link | append: "&media=" | append: media_url | append: "&description=" | append: title }}"
+        target="_blank"
+        class="list-social-link link"
+      >
+        {%- render 'icon-sets', icon: 'pinterest' -%}
+        <span class="visually-hidden">{{ 'general.social.links.pinterest' | t }}</span>
+      </a>
+    </li>
+  {%- endif -%}
+  {%- if settings.enable_share_linkedin -%}
+    <li
+      class="social-item"
+      {% if show_tooltip == true %}
+        data-toggle="tooltip"
+        data-title="{{ 'general.share.to' | t }} {{ 'general.social.links.linkedin' | t }}"
+      {% endif %}
+    >
+      <a
+        href="{{ "https://www.linkedin.com/sharing/share-offsite/?url=" | append: link | append: "&title=" | append: title | append: "&source=" | append: shop.name }}"
+        target="_blank"
+        class="list-social-link link"
+      >
+        {%- render 'icon-sets', icon: 'linkedIn' -%}
+        <span class="visually-hidden">{{ 'general.social.links.linkedin' | t }}</span>
+      </a>
+    </li>
+  {%- endif -%}
+</ul>

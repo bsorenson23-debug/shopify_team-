@@ -1,0 +1,294 @@
+{{ 'section-image-text-tabs.css' | asset_url | stylesheet_tag }}
+{%- style -%}
+  .section-{{ section.id }}-margin {
+      margin-top: {{ section.settings.margin_top | times: 0.75 | round: 0 }}px;
+      margin-bottom: {{ section.settings.margin_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-margin {
+      margin-top: {{ section.settings.margin_top }}px;
+      margin-bottom: {{ section.settings.margin_bottom }}px;
+    }
+  }
+{%- endstyle -%}
+<div class="section-image-text-tabs isolate section-{{ section.id }}-margin">
+  <div class="section__wrapper image-text-tabs__wrapper page-width">
+    {%- if section.settings.show_section_header -%}
+      {% render 'section-header',
+        heading: section.settings.heading,
+        description: section.settings.description,
+        water_text: section.settings.water_text,
+        show_bottom_line: settings.section_show_title_bottom_line
+      %}
+    {%- endif -%}
+    <image-text-tabs class="image-text-tabs" data-switch-type="{{ section.settings.switch_type }}">
+      <div class="tab-contents color-{{ section.settings.color_scheme }} gradient">
+        <ul class="tabs-list full-width list-unstyled">
+          {%- for block in section.blocks -%}
+            <li
+              class="tab-item{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+              {% if settings.animations_reveal_on_scroll %}
+                data-cascade
+                style="--animation-order: {{ forloop.index0 }};"
+              {% endif %}
+              {{ block.shopify_attributes }}
+            >
+              <details-disclosure>
+                <details
+                  class="details-disclosure"
+                  data-index="{{ forloop.index }}"
+                  {% if forloop.first %}
+                    open
+                  {% endif %}
+                >
+                  <summary class="tab-heading font-heading">
+                    {{ block.settings.heading | escape }}
+                    {% render 'icon-sets', icon: 'arrow-right', class: 'caret-icon' %}
+                  </summary>
+                  <div class="tab-content details-disclosure-content">
+                    {%- if block.settings.description != blank -%}
+                      <div class="tab-description rte">{{ block.settings.description }}</div>
+                    {%- endif -%}
+                    {%- if block.settings.button_label != blank -%}
+                      <a
+                        class="button button--mini button--pill button--hover-animate mt-2"
+                        {% if block.settings.button_link != blank %}
+                          href="{{ block.settings.button_link }}"
+                        {% else %}
+                          role="link"
+                          aria-disabled="true"
+                        {% endif %}
+                      >
+                        {{- block.settings.button_label | escape -}}
+                      </a>
+                    {%- endif -%}
+                  </div>
+                </details>
+              </details-disclosure>
+            </li>
+          {%- endfor -%}
+        </ul>
+      </div>
+      <div class="tab-images">
+        {% capture sizes %}(min-width: {{ settings.page_width }}px) {{ settings.page_width | divided_by: 2 }}px, (min-width: 750px) 50vw, 100vw{% endcapture %}
+        {%- for block in section.blocks -%}
+          {% liquid
+            assign index = forloop.index0 | modulo: 6 | plus: 1
+            assign placeholder_image = 'collection-' | append: index
+          %}
+          <div
+            class="tab-image media hover-trigger{% unless forloop.first %} hidden{% endunless %}"
+            data-index="{{ forloop.index }}"
+            {{ block.shopify_attributes }}
+          >
+            {% render 'lazy-image',
+              image_object: block.settings.image,
+              has_mobile: block.settings.image_mobile,
+              sizes: sizes,
+              widths: '450, 660, 900, 1320, 1800',
+              class: 'animate--scale-up',
+              placeholder: placeholder_image
+            %}
+
+            {% render 'lazy-image',
+              is_mobile: true,
+              image_object: block.settings.image_mobile,
+              sizes: '100vw',
+              widths: '450, 660, 900'
+            %}
+            {%- if block.settings.product_list.count > 0 -%}
+              <div class="media-content">
+                {%- for item in block.settings.product_list -%}
+                  <a
+                    class="product-image media media--square md-round link"
+                    href="{{ item.url }}"
+                    data-toggle="tooltip"
+                    data-title="{{ item.title | truncate: 30 }}"
+                    aria-label="{{ item.title }}"
+                  >
+                    {%- if item.featured_image != blank -%}
+                      {{ item.featured_image | image_url: width: 300 | image_tag: loading: 'lazy' }}
+                    {%- else -%}
+                      {% liquid
+                        assign index = forloop.index0 | modulo: 6 | plus: 1
+                        assign placeholder_image = 'product-' | append: index
+                      %}
+                      {{ placeholder_image | placeholder_svg_tag: 'placeholder-svg' }}
+                    {%- endif -%}
+                  </a>
+                {%- endfor -%}
+              </div>
+            {%- endif -%}
+          </div>
+        {%- endfor -%}
+      </div>
+    </image-text-tabs>
+  </div>
+</div>
+<script src="{{ 'image-text-tabs.js' | asset_url }}" defer></script>
+{% schema %}
+{
+  "name": "t:sections.image-text-tabs.name",
+  "tag": "section",
+  "disabled_on": {
+    "groups": ["header", "footer", "custom.drawer", "custom.popup"]
+  },
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.scheme.label",
+      "default": "background-2"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.custom-section-header.settings.header_header.content"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_section_header",
+      "label": "t:sections.custom-section-header.settings.show_section_header.label",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "t:sections.all.text-content.heading.label",
+      "default": "Image-text tabs",
+      "visible_if": "{{ section.settings.show_section_header }}"
+    },
+    {
+      "type": "richtext",
+      "id": "description",
+      "label": "t:sections.all.text-content.description.label",
+      "visible_if": "{{ section.settings.show_section_header }}"
+    },
+    {
+      "type": "text",
+      "id": "water_text",
+      "label": "t:sections.custom-section-header.settings.water_text.label",
+      "visible_if": "{{ section.settings.show_section_header }}"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.content.header_content"
+    },
+    {
+      "type": "select",
+      "id": "switch_type",
+      "label": "t:sections.image-text-tabs.settings.switch_type.label",
+      "options": [
+        {
+          "value": "hover",
+          "label": "t:sections.image-text-tabs.settings.switch_type.options__1.label"
+        },
+        {
+          "value": "click",
+          "label": "t:sections.image-text-tabs.settings.switch_type.options__2.label"
+        }
+      ],
+      "default": "click"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.margin.header_content"
+    },
+    {
+      "type": "range",
+      "id": "margin_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.margin.margin_top.label",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "margin_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.margin.margin_bottom.label",
+      "default": 80
+    }
+  ],
+  "blocks": [
+    {
+      "type": "image_text",
+      "name": "t:sections.image-text-tabs.blocks.image-text.name",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "t:sections.all.image.image_picker.label",
+          "info": "t:sections.image-text-tabs.blocks.image-text.settings.image.info"
+        },
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "t:sections.all.text-content.heading.label",
+          "default": "Tab title"
+        },
+        {
+          "type": "richtext",
+          "id": "description",
+          "label": "t:sections.all.text-content.description.label",
+          "default": "<p>Tab description goes here.<\/p>"
+        },
+        {
+          "type": "text",
+          "id": "button_label",
+          "label": "t:sections.all.button.button_label.label",
+          "info": "t:sections.all.button.button_label.info"
+        },
+        {
+          "type": "url",
+          "id": "button_link",
+          "label": "t:sections.all.button.button_link.label"
+        },
+        {
+          "type": "header",
+          "content": "t:sections.image-text-tabs.blocks.image-text.settings.header_products.content"
+        },
+        {
+          "type": "product_list",
+          "id": "product_list",
+          "label": "t:sections.all.product-list.label",
+          "limit": 5,
+          "info": "t:sections.image-text-tabs.blocks.image-text.settings.product_list.info"
+        },
+        {
+          "type": "header",
+          "content": "t:sections.all.mobile.header_content"
+        },
+        {
+          "type": "image_picker",
+          "id": "image_mobile",
+          "label": "t:sections.all.image.image_picker.label",
+          "info": "t:sections.all.banner.height_mobile.info"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:sections.image-text-tabs.presets.name",
+      "category": "t:sections.all.category.media-layout",
+      "blocks": [
+        {
+          "type": "image_text"
+        },
+        {
+          "type": "image_text"
+        },
+        {
+          "type": "image_text"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

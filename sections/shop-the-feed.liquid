@@ -1,0 +1,679 @@
+{{ 'section-shop-the-feed.css' | asset_url | stylesheet_tag }}
+{%- style -%}
+  .section-{{ section.id }}-padding {
+     padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+     padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+   }
+   .section-{{ section.id }}-margin {
+       margin-top: {{ section.settings.margin_top | times: 0.75 | round: 0 }}px;
+       margin-bottom: {{ section.settings.margin_bottom | times: 0.75 | round: 0 }}px;
+   }
+
+   @media screen and (min-width: 750px) {
+     .section-{{ section.id }}-padding {
+       padding-top: {{ section.settings.padding_top }}px;
+       padding-bottom: {{ section.settings.padding_bottom }}px;
+     }
+     .section-{{ section.id }}-margin {
+        margin-top: {{ section.settings.margin_top }}px;
+        margin-bottom: {{ section.settings.margin_bottom }}px;
+    }
+   }
+{%- endstyle -%}
+<div class="shop-the-feed isolate color-{{ section.settings.color_scheme }} gradient section-{{ section.id }}-margin">
+  {%- if section.settings.texture_image != blank -%}
+    <div
+      class="texture-background-image media{% if section.settings.texture_fixed %} background--fixed{% endif %}"
+      style="opacity: {{ section.settings.texture_alpha }}%;"
+    >
+      {% render 'lazy-image', image_object: section.settings.texture_image %}
+    </div>
+  {%- endif -%}
+  <div class="section__wrapper shop-the-feed__wrapper page-width section-{{ section.id }}-padding">
+    <div class="text-content text-align-mobile--{{ section.settings.content_alignment_mobile }}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--left-in{% endif %}">
+      {%- if section.settings.caption != blank -%}
+        <div class="text-content-caption caption">
+          {{ section.settings.caption | escape }}
+        </div>
+      {%- endif -%}
+      {%- if section.settings.heading != blank -%}
+        <h2 class="text-content-heading heading-size--{{ section.settings.heading_size }}{% if section.settings.heading_decorative %} font-decorative{% endif %}">
+          {{- section.settings.heading | escape -}}
+        </h2>
+      {%- endif -%}
+      {%- if section.settings.description != blank -%}
+        <div class="text-content-description rte">
+          {{ section.settings.description }}
+        </div>
+      {%- endif -%}
+      {%- if section.settings.show_social_info -%}
+        <div class="social-follow">
+          <span class="social-avatar media media--square media--circle">
+            {% if section.settings.social_avatar != blank %}
+              {{ section.settings.social_avatar | image_url: width: 300 | image_tag }}
+            {% else %}
+              {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
+            {% endif %}
+          </span>
+          <div class="social-info">
+            <div class="social-name">{{ section.settings.social_nickname | escape }}</div>
+            {%- if section.settings.social_username != blank -%}
+              <small class="light">@{{ section.settings.social_username }}</small>
+            {%- endif -%}
+          </div>
+          <a
+            class="follow-button button button--small button--pill button--hover-animate"
+            {% if section.settings.follow_link != blank %}
+              href="{{ section.settings.follow_link }}"
+              target="_blank"
+            {% else %}
+              role="link"
+              aria-disabled="true"
+            {% endif %}
+            style="--gradient-background: {{ section.settings.button_background }}; --color-button-text: {{ section.settings.button_foreground.red }}, {{ section.settings.button_foreground.green }}, {{ section.settings.button_foreground.blue }};"
+          >
+            {% render 'icon-sets', icon: section.settings.social_type %}
+            {{ 'general.social.follow' | t }}
+          </a>
+        </div>
+      {%- endif -%}
+    </div>
+    <slider-component
+      class="feed-slider slider"
+      data-slide-desktop
+      data-slide-mobile
+      data-slide-smooth
+      data-draggable
+      {% if section.settings.auto_rotate %}
+        data-autoplay
+        data-interval="{{ section.settings.change_slides_speed | times: 1000 }}"
+        data-focus-pause
+      {% endif %}
+      {% unless section.settings.enable_floating_window %}
+        data-keep-video
+      {% endunless %}
+    >
+      <div class="slider-container">
+        <ul
+          id="Slider-{{ section.id }}"
+          class="slider-wrapper auto-grid"
+          style="--item-perfect-size: 15rem; --item-perfect-size-mobile: 12rem"
+        >
+          {%- for block in section.blocks -%}
+            {% liquid
+              assign image = block.settings.image | default: block.settings.video.preview_image
+              assign alt = block.settings.image.alt
+              if block.settings.video != blank
+                assign alt = 'sections.video.load_video' | t: description: block.settings.video.alt
+              endif
+            %}
+            <li
+              id="Slide-{{ section.id }}-{{ forloop.index }}"
+              class="slider-slide grid-item focus-inset hover-trigger"
+              tabindex="0"
+              {{ block.shopify_attributes }}
+            >
+              {%- if section.settings.enable_floating_window -%}
+                <div class="media media--portrait">
+                  {% render 'lazy-image', image_object: image, sizes: '500px', alt: alt, placeholder: 'image' %}
+                  <modal-opener
+                    class="media-content"
+                    role="button"
+                    aria-haspopup="dialog"
+                    aria-expanded="false"
+                    aria-controls="Feed-Modal-{{ section.id }}"
+                    data-target="Slide-Feed-{{ section.id }}-{{ forloop.index }}"
+                    tabindex="0"
+                  >
+                    {%- if block.settings.video != blank -%}
+                      <button class="video-play-button button button--icon button--pill">
+                        {% render 'icon-sets', icon: 'play' %}
+                      </button>
+                    {%- endif -%}
+                  </modal-opener>
+                </div>
+              {%- else -%}
+                {%- if block.settings.video != blank -%}
+                  <deferred-media
+                    class="video-model-media deferred-media media-fit--cover"
+                    data-load-when-visible
+                  >
+                    <div class="media-poster media media--portrait">
+                      {% render 'lazy-image',
+                        image_object: image,
+                        widths: '165, 360, 450, 660, 900, 1320',
+                        sizes: '(min-width: 750px) 800px, 80vw',
+                        alt: alt,
+                        placeholder: 'image'
+                      %}
+                    </div>
+                    {%- if block.settings.video != blank -%}
+                      <template>
+                        {{
+                          block.settings.video
+                          | video_tag: image_size: '800x', autoplay: true, loop: true, controls: false, muted: true
+                        }}
+                      </template>
+                    {%- endif -%}
+                    <button
+                      type="button"
+                      class="mute-button button button--icon button--small button--pill"
+                      aria-label="{{ 'accessibility.muted' | t }}"
+                      aria-pressed="true"
+                    >
+                      {% render 'icon-sets', icon: 'volume-off' %}
+                      {% render 'icon-sets', icon: 'volume-on' %}
+                    </button>
+                  </deferred-media>
+                {%- else -%}
+                  <div class="media media--portrait">
+                    {% render 'lazy-image',
+                      image_object: image,
+                      widths: '165, 360, 450, 660, 900, 1320',
+                      sizes: '(min-width: 750px) 800px, 80vw',
+                      placeholder: 'image'
+                    %}
+                  </div>
+                {%- endif -%}
+              {%- endif -%}
+            </li>
+          {%- endfor -%}
+        </ul>
+      </div>
+      <div class="slider-nav-buttons small-hide">
+        <button
+          type="button"
+          class="nav-button nav-button--prev button button--icon button--pill button--ambient"
+          name="previous"
+          aria-label="{{ 'general.slider.previous_slide' | t }}"
+          aria-controls="Slider-{{ section.id }}"
+        >
+          {% render 'icon-sets', icon: 'caret-left' %}
+        </button>
+        <button
+          type="button"
+          class="nav-button nav-button--next button button--icon button--pill button--ambient"
+          name="next"
+          aria-label="{{ 'general.slider.next_slide' | t }}"
+          aria-controls="Slider-{{ section.id }}"
+        >
+          {% render 'icon-sets', icon: 'caret-right' %}
+        </button>
+      </div>
+    </slider-component>
+  </div>
+</div>
+
+{% comment %} Feed悬浮窗口 {% endcomment %}
+{%- if section.settings.enable_floating_window -%}
+  <feed-modal
+    id="Feed-Modal-{{ section.id }}"
+    class="feed-modal feed-modal-position--{{ section.settings.floating_window_position }} modal"
+  >
+    <div class="modal-overlay"></div>
+    <div
+      class="modal-inner gradient focus-none"
+      role="dialog"
+      data-trap
+      aria-modal="true"
+      tabindex="-1"
+    >
+      <button
+        type="button"
+        class="modal-close button button--small button--icon button--ethereal focus-inset"
+        aria-label="{{ 'accessibility.close' | t }}"
+        onclick="this.closest('feed-modal').hide()"
+      >
+        {% render 'icon-sets', icon: 'close' %}
+      </button>
+      <slider-component
+        class="float-feed-slider slider"
+        data-slide-desktop
+        data-slide-mobile
+        data-slide-smooth
+        data-draggable
+        data-looping-infinite
+      >
+        <div class="slider-container">
+          <ul id="Slider-Feed-{{ section.id }}" class="slider-wrapper">
+            {%- for block in section.blocks -%}
+              <li id="Slide-Feed-{{ section.id }}-{{ forloop.index }}" class="slider-slide focus-inset" tabindex="0">
+                {%- if block.settings.video != blank -%}
+                  {% liquid
+                    assign poster = block.settings.image | default: block.settings.video.preview_image
+                    assign alt = 'sections.video.load_video' | t: description: block.settings.video.alt
+                  %}
+                  <deferred-media
+                    class="feed-video video-model-media deferred-media media-fit--cover"
+                    data-load-when-visible
+                  >
+                    <div class="media-poster media">
+                      {% render 'lazy-image',
+                        image_object: poster,
+                        widths: '165, 360, 450, 660, 900, 1320',
+                        sizes: '(min-width: 750px) 800px, 80vw',
+                        alt: alt,
+                        placeholder: 'image'
+                      %}
+                    </div>
+                    <template>
+                      {{
+                        block.settings.video
+                        | video_tag: image_size: '800x', autoplay: false, loop: true, controls: false, muted: true
+                      }}
+                    </template>
+                    <button
+                      type="button"
+                      class="mute-button button button--icon button--small button--pill"
+                      aria-label="{{ 'accessibility.muted' | t }}"
+                      aria-pressed="true"
+                    >
+                      {% render 'icon-sets', icon: 'volume-off' %}
+                      {% render 'icon-sets', icon: 'volume-on' %}
+                    </button>
+                  </deferred-media>
+                {%- else -%}
+                  <div class="feed-image media">
+                    {% render 'lazy-image',
+                      image_object: block.settings.image,
+                      widths: '165, 360, 450, 660, 900, 1320',
+                      sizes: '(min-width: 750px) 800px, 80vw',
+                      placeholder: 'image'
+                    %}
+                  </div>
+                {%- endif -%}
+                {%- if block.settings.product != blank -%}
+                  <div class="feed-content">
+                    <div class="content-product">
+                      <div class="product-title">{{ block.settings.product.title | truncate: 50 }}</div>
+                      {% render 'price', product_object: block.settings.product %}
+
+                      {%- if settings.card_enable_quick_add -%}
+                        <modal-opener
+                          class="view-details-button button button--small button--full-width button--hover-animate has-loading"
+                          data-product-handle="{{ block.settings.product.handle }}"
+                          data-product-url="{{ block.settings.product.url }}"
+                          role="button"
+                          aria-haspopup="dialog"
+                          aria-expanded="false"
+                          aria-controls="Product-QuickView-Drawer"
+                          aria-label="{{ 'products.card.quick_shop' | t }}"
+                        >
+                          <a
+                            href="{{ block.settings.product.url }}"
+                            class="loading-hidden fallback-link link link-full"
+                          >
+                            {{ 'general.view_details' | t }}
+                            {% render 'icon-sets', icon: 'arrow-right' %}
+                          </a>
+                          {% render 'loading-overlay' %}
+                        </modal-opener>
+                      {%- else -%}
+                        <a
+                          class="view-details-button button button--small button--full-width button--hover-animate"
+                          href="{{ block.settings.product.url }}"
+                        >
+                          {{ 'general.view_details' | t }}
+                          {% render 'icon-sets', icon: 'arrow-right' %}
+                        </a>
+                      {%- endif -%}
+                    </div>
+                  </div>
+                {%- endif -%}
+              </li>
+            {%- endfor -%}
+          </ul>
+        </div>
+        <div class="slider-nav-buttons">
+          <button
+            type="button"
+            class="nav-button nav-button--prev button button--small button--icon button--pill"
+            name="previous"
+            aria-label="{{ 'general.slider.previous_slide' | t }}"
+            aria-controls="Slider-{{ section.id }}"
+          >
+            {% render 'icon-sets', icon: 'caret-up' %}
+          </button>
+          <button
+            type="button"
+            class="nav-button nav-button--next button button--small button--icon button--pill"
+            name="next"
+            aria-label="{{ 'general.slider.next_slide' | t }}"
+            aria-controls="Slider-{{ section.id }}"
+          >
+            {% render 'icon-sets', icon: 'caret' %}
+          </button>
+        </div>
+      </slider-component>
+    </div>
+  </feed-modal>
+  <script src="{{ 'feed-modal.js' | asset_url }}" defer></script>
+{%- endif -%}
+{% schema %}
+{
+  "name": "t:sections.shop-the-feed.name",
+  "tag": "section",
+  "disabled_on": {
+    "groups": ["header", "footer", "custom.drawer", "custom.popup"]
+  },
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.scheme.label",
+      "default": "background-1"
+    },
+    {
+      "type": "image_picker",
+      "id": "texture_image",
+      "label": "t:sections.all.image.background_image_picker.label",
+      "info": "t:sections.all.banner.height.options__1.info"
+    },
+    {
+      "type": "range",
+      "id": "texture_alpha",
+      "label": "t:sections.all.image.image_opacity.label",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "%",
+      "default": 90
+    },
+    {
+      "type": "checkbox",
+      "id": "texture_fixed",
+      "label": "t:sections.all.image.image_fixed.label",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_floating_window",
+      "label": "t:sections.shop-the-feed.settings.enable_floating_window.label",
+      "default": true
+    },
+    {
+      "type": "select",
+      "id": "floating_window_position",
+      "label": "t:sections.shop-the-feed.settings.floating_window_position.label",
+      "options": [
+        {
+          "value": "left-bottom",
+          "label": "t:sections.shop-the-feed.settings.floating_window_position.options__1.label"
+        },
+        {
+          "value": "right-bottom",
+          "label": "t:sections.shop-the-feed.settings.floating_window_position.options__2.label"
+        }
+      ],
+      "default": "right-bottom",
+      "visible_if": "{{ section.settings.enable_floating_window }}"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.text-content.header_content"
+    },
+    {
+      "type": "text",
+      "id": "caption",
+      "default": "Add a caption",
+      "label": "t:sections.all.text-content.caption.label"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "default": "Add heading here",
+      "label": "t:sections.all.text-content.heading.label"
+    },
+    {
+      "type": "select",
+      "id": "heading_size",
+      "options": [
+        {
+          "value": "small",
+          "label": "t:sections.all.text-content.heading.size.options__1.label"
+        },
+        {
+          "value": "medium",
+          "label": "t:sections.all.text-content.heading.size.options__2.label"
+        },
+        {
+          "value": "large",
+          "label": "t:sections.all.text-content.heading.size.options__3.label"
+        }
+      ],
+      "default": "medium",
+      "label": "t:sections.all.text-content.heading.size.label"
+    },
+    {
+      "type": "checkbox",
+      "id": "heading_decorative",
+      "label": "t:sections.all.text-content.heading.decorative.label",
+      "default": false
+    },
+    {
+      "type": "richtext",
+      "id": "description",
+      "default": "<p>Add description here<\/p>",
+      "label": "t:sections.all.text-content.description.label"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.shop-the-feed.settings.header_social_info.content"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_social_info",
+      "label": "t:sections.shop-the-feed.settings.show_social_info.label",
+      "default": true
+    },
+    {
+      "type": "image_picker",
+      "id": "social_avatar",
+      "label": "t:sections.shop-the-feed.settings.social_avatar.label",
+      "visible_if": "{{ section.settings.show_social_info }}"
+    },
+    {
+      "type": "text",
+      "id": "social_nickname",
+      "label": "t:sections.shop-the-feed.settings.social_nickname.label",
+      "default": "Webvista studio",
+      "visible_if": "{{ section.settings.show_social_info }}"
+    },
+    {
+      "type": "text",
+      "id": "social_username",
+      "label": "t:sections.shop-the-feed.settings.social_username.label",
+      "default": "webvista_studio",
+      "visible_if": "{{ section.settings.show_social_info }}"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.shop-the-feed.settings.header_follow_button.content",
+      "visible_if": "{{ section.settings.show_social_info }}"
+    },
+    {
+      "type": "select",
+      "id": "social_type",
+      "label": "t:sections.all.social-list.social_type.label",
+      "options": [
+        {
+          "value": "meta",
+          "label": "Facebook"
+        },
+        {
+          "value": "instagram",
+          "label": "Instagram"
+        },
+        {
+          "value": "twitter",
+          "label": "Twitter"
+        },
+        {
+          "value": "tiktok",
+          "label": "Tiktok"
+        },
+        {
+          "value": "youtube",
+          "label": "Youtube"
+        },
+        {
+          "value": "pinterest",
+          "label": "Pinterest"
+        },
+        {
+          "value": "linkedin",
+          "label": "Linkedin"
+        }
+      ],
+      "default": "instagram",
+      "visible_if": "{{ section.settings.show_social_info }}"
+    },
+    {
+      "type": "url",
+      "id": "follow_link",
+      "label": "t:sections.all.url.label",
+      "visible_if": "{{ section.settings.show_social_info }}"
+    },
+    {
+      "type": "color_background",
+      "id": "button_background",
+      "label": "t:sections.all.colors.background.label",
+      "default": "linear-gradient(86deg, rgba(241, 15, 15, 1) 3%, rgba(248, 17, 255, 1) 100%)",
+      "visible_if": "{{ section.settings.show_social_info }}"
+    },
+    {
+      "type": "color",
+      "id": "button_foreground",
+      "label": "t:sections.all.colors.foreground.label",
+      "default": "#FFFFFF",
+      "visible_if": "{{ section.settings.show_social_info }}"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.slider.header_content"
+    },
+    {
+      "type": "checkbox",
+      "id": "auto_rotate",
+      "label": "t:sections.all.slider.auto_rotate.label",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "change_slides_speed",
+      "min": 2,
+      "max": 10,
+      "step": 1,
+      "unit": "s",
+      "label": "t:sections.all.slider.change_slides_speed.label",
+      "default": 3,
+      "visible_if": "{{ section.settings.auto_rotate }}"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.mobile.header_content"
+    },
+    {
+      "type": "text_alignment",
+      "id": "content_alignment_mobile",
+      "default": "center",
+      "label": "t:sections.all.text-alignment.label"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.padding.header_content"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_top.label",
+      "default": 48
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_bottom.label",
+      "default": 48
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.margin.header_content"
+    },
+    {
+      "type": "range",
+      "id": "margin_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.margin.margin_top.label",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "margin_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.margin.margin_bottom.label",
+      "default": 80
+    }
+  ],
+  "blocks": [
+    {
+      "type": "feed",
+      "name": "t:sections.shop-the-feed.blocks.feed.name",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "t:sections.all.image.image_picker.label"
+        },
+        {
+          "type": "video",
+          "id": "video",
+          "label": "t:sections.all.video.video.label"
+        },
+        {
+          "type": "product",
+          "id": "product",
+          "label": "t:sections.all.product.label",
+          "info": "t:sections.shop-the-feed.blocks.feed.settings.product.info"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:sections.shop-the-feed.presets.name",
+      "category": "t:sections.all.category.team-social-proof",
+      "blocks": [
+        {
+          "type": "feed"
+        },
+        {
+          "type": "feed"
+        },
+        {
+          "type": "feed"
+        },
+        {
+          "type": "feed"
+        },
+        {
+          "type": "feed"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,29 @@
+.download-list__wrapper .main-table {
+  width: 100%;
+}
+.download-list__wrapper .main-table thead {
+  border-block-end: 1px solid rgba(var(--color-foreground), 1);
+}
+.download-list__wrapper .main-table thead th {
+  padding-block: 0.5rem;
+  padding-inline: 0;
+}
+.download-list__wrapper .main-table tbody tr {
+  border-block-end: 1px solid rgba(var(--color-foreground), 0.1);
+}
+.download-list__wrapper .main-table tbody tr td {
+  padding-block: 0.5rem;
+  padding-inline: 1rem;
+}
+.download-list__wrapper .main-table tbody tr:hover {
+  background: rgba(var(--color-foreground), 0.05);
+}
+.download-list__wrapper .main-table tbody .file-details {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+.download-list__wrapper .main-table tbody .file-details .media {
+  flex: 0 0 auto;
+  width: 3rem;
+}

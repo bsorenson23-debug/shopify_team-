@@ -1,0 +1,50 @@
+.autopopup .modal-inner .modal-content > * {
+  margin-block-start: 0;
+  margin-block-end: 0;
+}
+.autopopup .modal-inner .modal-content > *:not(:first-child) {
+  margin-block-start: 1rem;
+}
+.autopopup .modal-inner .modal-content .autopopup-icon .icon {
+  width: 4rem;
+}
+.autopopup .modal-inner .modal-media {
+  width: 20rem;
+  min-height: 20rem;
+  flex: 0 0 auto;
+}
+.autopopup.autopopup-newsletter .flexible-group .field {
+  min-width: 15rem;
+}
+.autopopup.autopopup-newsletter .list-social .social-item {
+  --icon-width: 1.5rem;
+}
+@media screen and (min-width: 750px) {
+  .autopopup.autopopup-newsletter .modal-inner:not(.autopopup-newsletter--has-image) {
+    min-width: 30rem;
+    width: 30rem;
+  }
+  .autopopup.autopopup-newsletter .modal-inner.autopopup-newsletter--has-image .modal-main {
+    display: flex;
+    align-items: stretch;
+  }
+}
+@media screen and (max-width: 749px) {
+  .autopopup.autopopup-newsletter {
+    align-items: flex-end;
+  }
+}
+.autopopup.autopopup-age-verifier .age-verifier-declined {
+  display: none;
+}
+.autopopup.autopopup-age-verifier .verifier-buttons {
+  max-width: 20rem;
+  margin-inline-start: auto;
+  margin-inline-end: auto;
+}
+.autopopup.autopopup-age-verifier.age-verifier--has-decline .age-verifier-question {
+  display: none;
+}
+.autopopup.autopopup-age-verifier.age-verifier--has-decline .age-verifier-declined {
+  display: block;
+}

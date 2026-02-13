@@ -1,0 +1,179 @@
+/* LT316 Home - Ascent-friendly styling */
+.lt316-hero {
+  padding: clamp(28px, 4vw, 56px) 0;
+}
+
+.lt316-hero__wrap {
+  display: grid;
+  grid-template-columns: 1.05fr 0.95fr;
+  gap: clamp(18px, 3vw, 44px);
+  align-items: center;
+}
+
+.lt316-hero__kicker {
+  margin: 0 0 10px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  opacity: 0.85;
+}
+
+.lt316-hero__title {
+  margin: 0 0 12px;
+  line-height: 1.05;
+  font-size: clamp(28px, 4.2vw, 54px);
+}
+
+.lt316-hero__subheading {
+  margin: 0 0 18px;
+  font-size: clamp(15px, 1.4vw, 18px);
+  line-height: 1.5;
+  opacity: 0.9;
+  max-width: 54ch;
+}
+
+.lt316-hero__cta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 0 0 14px;
+}
+
+.lt316-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 16px;
+  border-radius: 10px;
+  text-decoration: none;
+  font-weight: 700;
+  border: 1px solid transparent;
+  transition: transform 0.08s ease, opacity 0.12s ease;
+}
+
+.lt316-btn:active { transform: translateY(1px); }
+
+.lt316-btn--primary {
+  background: var(--color-button, #111);
+  color: var(--color-button-text, #fff);
+}
+
+.lt316-btn--secondary {
+  background: transparent;
+  color: currentColor;
+  border-color: rgba(0,0,0,0.18);
+}
+
+.lt316-hero__badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.lt316-hero__badges li {
+  padding: 8px 10px;
+  border-radius: 999px;
+  border: 1px solid rgba(0,0,0,0.10);
+  background: rgba(0,0,0,0.03);
+  font-size: 13px;
+  font-weight: 600;
+  opacity: 0.95;
+}
+
+.lt316-hero__media {
+  border-radius: 18px;
+  overflow: hidden;
+  border: 1px solid rgba(0,0,0,0.10);
+  background: rgba(0,0,0,0.02);
+}
+
+.lt316-hero__img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.lt316-hero__placeholder {
+  padding: 36px;
+  text-align: center;
+  opacity: 0.8;
+}
+
+/* Mobile */
+@media (max-width: 900px) {
+  .lt316-hero__wrap {
+    grid-template-columns: 1fr;
+  }
+  .lt316-hero__media {
+    order: -1;
+  }
+}
+/* =========================
+   LT316 - Collection List Polish
+   Works with most Ascent collection list markup
+   ========================= */
+
+.shopify-section .collection-list,
+.shopify-section .collection-list-wrapper,
+.shopify-section .collection-list__wrapper {
+  margin-top: 0;
+}
+
+/* Card container */
+.shopify-section .collection-card,
+.shopify-section .card--collection,
+.shopify-section .collection-list .card {
+  border-radius: 18px;
+  overflow: hidden;
+}
+
+/* Media area */
+.shopify-section .collection-card__image,
+.shopify-section .card--collection .card__media,
+.shopify-section .collection-list .card__media {
+  border-radius: 18px;
+  overflow: hidden;
+  background: rgba(255,255,255,0.03);
+}
+
+/* Make images consistent */
+.shopify-section .card--collection img,
+.shopify-section .collection-list img,
+.shopify-section .collection-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Hover polish */
+@media (hover: hover) {
+  .shopify-section .card--collection,
+  .shopify-section .collection-card,
+  .shopify-section .collection-list .card {
+    transition: transform 120ms ease, box-shadow 160ms ease;
+  }
+
+  .shopify-section .card--collection:hover,
+  .shopify-section .collection-card:hover,
+  .shopify-section .collection-list .card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 14px 30px rgba(0,0,0,0.18);
+  }
+}
+
+/* Title spacing */
+.shopify-section .card--collection .card__heading,
+.shopify-section .collection-card__title,
+.shopify-section .collection-list .card__heading {
+  margin-top: 12px;
+  line-height: 1.2;
+}
+
+/* Reduce excessive padding if Ascent is heavy */
+.shopify-section .collection-list .card__content,
+.shopify-section .card--collection .card__content {
+  padding: 14px 14px 16px;
+}

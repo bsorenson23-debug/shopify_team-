@@ -1,0 +1,134 @@
+{% comment %}
+  Laser Things 316 - Home Hero (Ascent-friendly)
+{% endcomment %}
+
+<section class="lt316-hero">
+  <div class="page-width lt316-hero__wrap">
+    <div class="lt316-hero__content">
+      {% if section.settings.kicker != blank %}
+        <p class="lt316-hero__kicker">{{ section.settings.kicker }}</p>
+      {% endif %}
+
+{% if section.settings.heading != blank %}
+  <h2 class="lt316-hero__heading">{{ section.settings.heading }}</h2>
+{% endif %}
+
+      {% if section.settings.subheading != blank %}
+        <p class="lt316-hero__subheading">{{ section.settings.subheading }}</p>
+      {% endif %}
+
+      <div class="lt316-hero__cta">
+        {% if section.settings.primary_label != blank and section.settings.primary_link != blank %}
+          <a class="lt316-btn lt316-btn--primary" href="{{ section.settings.primary_link }}">
+            {{ section.settings.primary_label }}
+          </a>
+        {% endif %}
+
+        {% if section.settings.secondary_label != blank and section.settings.secondary_link != blank %}
+          <a class="lt316-btn lt316-btn--secondary" href="{{ section.settings.secondary_link }}">
+            {{ section.settings.secondary_label }}
+          </a>
+        {% endif %}
+      </div>
+
+      <ul class="lt316-hero__badges" aria-label="Store highlights">
+        {% if section.settings.badge_1 != blank %}<li>{{ section.settings.badge_1 }}</li>{% endif %}
+        {% if section.settings.badge_2 != blank %}<li>{{ section.settings.badge_2 }}</li>{% endif %}
+        {% if section.settings.badge_3 != blank %}<li>{{ section.settings.badge_3 }}</li>{% endif %}
+      </ul>
+    </div>
+
+     <div class="lt316-hero__media">
+      {% if section.settings.image != blank %}
+        {{ section.settings.image | image_url: width: 1400 | image_tag: loading: 'lazy', class: 'lt316-hero__img', alt: section.settings.image_alt | escape }}
+      {% else %}
+        <div class="lt316-hero__placeholder">
+          <p>Add a hero image in this section’s settings.</p>
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "LT316 - Hero",
+  "settings": [
+    {
+      "type": "text",
+      "id": "kicker",
+      "label": "Kicker (small text above headline)",
+      "default": "Laser Things 316"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Headline",
+      "default": "Precision Jigs & Laser-Ready Tools That Just Work"
+    },
+    {
+      "type": "textarea",
+      "id": "subheading",
+      "label": "Subheadline",
+      "default": "Dial in your workflow with purpose-built jigs, hubs, and accessories—designed for repeatable results."
+    },
+    {
+      "type": "text",
+      "id": "primary_label",
+      "label": "Primary button label",
+      "default": "Shop Best Sellers"
+    },
+    {
+      "type": "url",
+      "id": "primary_link",
+      "label": "Primary button link"
+    },
+    {
+      "type": "text",
+      "id": "secondary_label",
+      "label": "Secondary button label",
+      "default": "Browse All Jigs"
+    },
+    {
+      "type": "url",
+      "id": "secondary_link",
+      "label": "Secondary button link"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Hero image"
+    },
+    {
+      "type": "text",
+      "id": "image_alt",
+      "label": "Hero image alt text",
+      "default": "Laser Things 316 jigs and accessories"
+    },
+    {
+      "type": "text",
+      "id": "badge_1",
+      "label": "Badge 1",
+      "default": "Fast shipping"
+    },
+    {
+      "type": "text",
+      "id": "badge_2",
+      "label": "Badge 2",
+      "default": "Shop-built, field tested"
+    },
+    {
+      "type": "text",
+      "id": "badge_3",
+      "label": "Badge 3",
+      "default": "Support if you get stuck"
+    }
+  ],
+  "presets": [
+    {
+      "name": "LT316 - Hero"
+    }
+  ]
+}
+
+{% endschema %}

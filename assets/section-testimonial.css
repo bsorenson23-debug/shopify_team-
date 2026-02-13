@@ -1,0 +1,79 @@
+.testimonial-main {
+  padding-block: 2rem;
+  padding-inline: 0;
+}
+.testimonial-main .testimonial-media {
+  border-radius: var(--large-radius);
+}
+.testimonial-main .testimonial-masonry {
+  display: flex;
+  align-items: stretch;
+  gap: 2rem;
+}
+.testimonial-main .testimonial-masonry scroll-seamless {
+  flex: 1 1 auto;
+  height: 40rem;
+}
+.testimonial-main .testimonial-masonry .testimonial-item {
+  break-inside: avoid;
+  width: 100%;
+  height: auto;
+  border-radius: var(--medium-radius);
+  margin-block-end: 1rem;
+}
+.testimonial-main .testimonial-masonry .testimonial-item.review-item {
+  padding: 1.25rem;
+  --alpha-background: 0.02;
+  background: rgba(var(--color-foreground), var(--alpha-background));
+}
+.testimonial-main .testimonial-masonry .testimonial-item.review-item > *:not(:last-child) {
+  margin-block-end: 0.75rem;
+}
+.testimonial-main .testimonial-masonry .testimonial-item.review-item .review-author {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.testimonial-main .testimonial-masonry .testimonial-item.review-item .review-author .author-avatar {
+  width: 2rem;
+}
+.testimonial-main .testimonial-masonry .testimonial-item.review-item .review-author .icon-verified {
+  width: 1.25rem;
+}
+.testimonial-main .testimonial-masonry.first-letter-enlarge .review-content:first-letter {
+  font-size: 2rem;
+  font-weight: var(--font-body-weight-bold);
+}
+.testimonial-main.testimonial-only .testimonial-masonry {
+  margin-block: 0;
+  margin-inline: auto;
+}
+@media screen and (max-width: 749px) {
+  .testimonial-main .testimonial-media {
+    height: 18rem;
+    margin-block-end: 2rem;
+  }
+}
+@media screen and (min-width: 750px) {
+  .testimonial-main {
+    display: flex;
+    align-items: stretch;
+    gap: 3rem;
+  }
+  .testimonial-main .testimonial-media,
+  .testimonial-main .testimonial-masonry {
+    width: 50%;
+    flex: 1 1 auto;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  @keyframes masonryScroll {
+    from {
+      transform: translateY(var(--from-y));
+    }
+    to {
+      transform: translateY(var(--end-y));
+    }
+  }
+}

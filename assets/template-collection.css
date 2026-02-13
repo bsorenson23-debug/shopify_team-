@@ -1,0 +1,181 @@
+.template-collection .banner {
+  position: relative;
+}
+.template-collection .banner .banner-image {
+  position: absolute;
+  inset-inline-start: 0;
+  inset-block-start: 0;
+  width: 100%;
+  height: 100%;
+}
+.template-collection .banner .banner-image.synergy--fixed {
+  clip-path: inset(-1px);
+}
+.template-collection .banner .banner-image.synergy--fixed img {
+  position: fixed;
+}
+@media screen and (min-width: 750px) and (prefers-reduced-motion: no-preference) {
+  .template-collection .banner .banner-image.scroll-synergy img {
+    visibility: hidden;
+    opacity: 0;
+  }
+  .template-collection .banner .banner-image.scroll-synergy[data-init=true] img {
+    visibility: visible;
+    animation: fadeIn 1200ms cubic-bezier(0, 0, 0.3, 1) forwards;
+  }
+  .template-collection .banner .banner-image.scroll-synergy.synergy--zoom-in img {
+    transform: scale(var(--zoom-in-ratio));
+  }
+  .template-collection .banner .banner-image.scroll-synergy.synergy--parallax img {
+    height: 150%;
+    transform: translateY(calc(-33% * var(--parallax-ratio)));
+  }
+}
+.template-collection .banner .banner-content {
+  display: grid;
+  grid-template-rows: 1fr auto;
+  z-index: 1;
+}
+.template-collection .banner .banner-content .banner-content-main {
+  width: 100%;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  padding-block: 3rem;
+}
+.template-collection .banner .banner-content .banner-content-main .text-content-heading {
+  font-size: 3rem;
+}
+.template-collection .banner .banner-content .banner-content-main .text-content-heading.heading-size--small {
+  font-size: 2rem;
+}
+.template-collection .banner .banner-content .banner-content-main .text-content-heading.heading-size--large {
+  font-size: 4rem;
+}
+@media screen and (max-width: 749px) {
+  .template-collection .banner .banner-content .banner-content-main .text-content-heading {
+    font-size: 2rem;
+  }
+  .template-collection .banner .banner-content .banner-content-main .text-content-heading.heading-size--small {
+    font-size: 1.5rem;
+  }
+  .template-collection .banner .banner-content .banner-content-main .text-content-heading.heading-size--large {
+    font-size: 2.5rem;
+  }
+}
+.template-collection .banner .banner-content .banner-content-main .subcategory-list {
+  margin-block-start: 2rem;
+}
+.template-collection .banner .banner-content .banner-content-main .subcategory-list ul {
+  display: flex;
+  align-items: center;
+  flex-wrap: nowrap;
+  gap: 2rem;
+}
+.template-collection .banner .banner-content .banner-content-main .subcategory-list ul .subcategory-item {
+  flex: 0 0 auto;
+}
+.template-collection .banner .banner-content .banner-content-main .subcategory-list ul .subcategory-item a {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.template-collection .banner .banner-content .banner-content-main .subcategory-list ul .subcategory-item .media {
+  flex: 0 0 auto;
+  width: 4rem;
+}
+.template-collection .banner .banner-content .banner-content-bottom {
+  width: 100%;
+  padding-block-start: 1rem;
+  padding-block-end: 1rem;
+}
+.template-collection .banner.banner--small {
+  position: relative;
+}
+.template-collection .banner.banner--small:before {
+  content: "";
+  display: block;
+  width: 0;
+  padding-block-end: 20rem;
+}
+.template-collection .banner.banner--medium {
+  position: relative;
+}
+.template-collection .banner.banner--medium:before {
+  content: "";
+  display: block;
+  width: 0;
+  padding-block-end: 25rem;
+}
+.template-collection .banner.banner--large {
+  position: relative;
+}
+.template-collection .banner.banner--large:before {
+  content: "";
+  display: block;
+  width: 0;
+  padding-block-end: 30rem;
+}
+.template-collection .content-grid-main {
+  padding-block-start: 3rem;
+  padding-block-end: 3rem;
+}
+.template-collection .content-grid-main .advertisement-item {
+  min-height: 20rem;
+}
+@media screen and (min-width: 750px) {
+  .template-collection .content-grid-main .advertisement-item {
+    min-height: 30rem;
+  }
+  .template-collection .content-grid-main.has-vertical-facets {
+    display: flex;
+    align-items: flex-start;
+  }
+  .template-collection .content-grid-main.has-vertical-facets > * {
+    flex: 1 1 auto;
+  }
+  .template-collection .content-grid-main.has-vertical-facets .facets-vertical {
+    flex: 0 0 auto;
+  }
+  .template-collection .content-grid-main.has-vertical-facets .facets-vertical .collection-menu {
+    width: 20rem;
+  }
+  .template-collection .content-grid-main.has-vertical-facets .facets-vertical .collection-menu .menu-link:hover,
+  .template-collection .content-grid-main.has-vertical-facets .facets-vertical .collection-menu summary:hover {
+    opacity: 0.75;
+  }
+  .template-collection .content-grid-main.has-vertical-facets .facets-vertical .collection-menu .menu-link {
+    display: block;
+    padding-block: 0.5rem;
+    padding-inline: 0;
+  }
+  .template-collection .content-grid-main.has-vertical-facets .facets-vertical .collection-menu summary {
+    display: flex;
+    align-items: center;
+  }
+  .template-collection .content-grid-main.has-vertical-facets .facets-vertical .collection-menu summary .icon-caret {
+    width: 0.875rem;
+    margin-inline-start: auto;
+  }
+  .template-collection .content-grid-main.has-vertical-facets .facets-vertical .collection-menu .details-disclosure-content {
+    padding-inline-start: 1rem;
+  }
+  .template-collection .content-grid-main.has-vertical-facets .facets-vertical .collection-menu + .facets {
+    padding-block-start: 1rem;
+    margin-block-start: 1rem;
+    border-block-start: 1px solid rgba(var(--color-foreground), 0.1);
+  }
+  .template-collection .content-grid-main.has-vertical-facets.vertical-facets--sticky .facets-vertical {
+    position: sticky;
+    top: calc(var(--header-height, 5rem) + 1rem);
+  }
+  .template-collection .content-grid-main.has-vertical-facets.facets-side--left .facets-vertical {
+    padding-inline-end: 3rem;
+  }
+  .template-collection .content-grid-main.has-vertical-facets.facets-side--right {
+    flex-direction: row-reverse;
+  }
+  .template-collection .content-grid-main.has-vertical-facets.facets-side--right .facets-vertical {
+    padding-inline-start: 3rem;
+  }
+}
