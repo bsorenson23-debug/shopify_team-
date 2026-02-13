@@ -10,6 +10,46 @@
       margin-bottom: {{ section.settings.margin_bottom }}px;
     }
   }
+
+  {%- if section.settings.enable_compact_cards -%}
+    .section-{{ section.id }}-margin .slider-wrapper {
+      --item-min-size: 12rem;
+      --item-perfect-size: 16rem;
+    }
+
+    .section-{{ section.id }}-margin .collection-card-wrapper .card {
+      background: transparent;
+      border: 0;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .section-{{ section.id }}-margin .collection-card-wrapper .card.card-layout--horizontal .card-inner {
+      width: 5.2rem;
+      min-width: 5.2rem;
+    }
+
+    .section-{{ section.id }}-margin .collection-card-wrapper .card .card-media-wrapper,
+    .section-{{ section.id }}-margin .collection-card-wrapper .card .card-media {
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    .section-{{ section.id }}-margin .collection-card-wrapper .card .card-content .card-buttons {
+      display: none;
+    }
+
+    .section-{{ section.id }}-margin .collection-card-wrapper .card .card-content .card-heading {
+      margin: 0;
+      font-size: 2rem;
+      line-height: 1.2;
+    }
+
+    .section-{{ section.id }}-margin .collection-card-wrapper .card .card-content .card-heading .link {
+      text-decoration: none;
+    }
+  {%- endif -%}
 {%- endstyle -%}
 
 {%- liquid
@@ -81,6 +121,7 @@
                       image_width: perfect_width,
                       image_width_mobile: perfect_width_mobile,
                       heading: block.settings.heading,
+                      show_horizontal: section.settings.enable_compact_cards,
                       content_alignment: section.settings.content_alignment,
                       show_count: section.settings.show_count,
                       placeholder_image: placeholder_image,
@@ -254,6 +295,12 @@
       "id": "show_count",
       "label": "t:sections.collection-list.settings.show_count.label",
       "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_compact_cards",
+      "label": "Enable compact inline cards",
+      "default": false
     },
     {
       "type": "range",
