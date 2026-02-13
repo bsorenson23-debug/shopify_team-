@@ -53,14 +53,27 @@
 .lt316-btn:active { transform: translateY(1px); }
 
 .lt316-btn--primary {
-  background: var(--color-button, #111);
-  color: var(--color-button-text, #fff);
+  background: var(--lt316-primary-bg, var(--color-button, #111));
+  color: var(--lt316-primary-text, var(--color-button-text, #fff));
 }
 
 .lt316-btn--secondary {
-  background: transparent;
-  color: currentColor;
-  border-color: rgba(0,0,0,0.18);
+  background: var(--lt316-secondary-bg, transparent);
+  color: var(--lt316-secondary-text, currentColor);
+  border-color: var(--lt316-secondary-border, rgba(0,0,0,0.18));
+}
+
+.lt316-btn--primary:hover,
+.lt316-btn--primary:focus-visible {
+  background: var(--lt316-primary-hover-bg, var(--lt316-primary-bg, var(--color-button, #111)));
+  color: var(--lt316-primary-hover-text, var(--lt316-primary-text, var(--color-button-text, #fff)));
+}
+
+.lt316-btn--secondary:hover,
+.lt316-btn--secondary:focus-visible {
+  background: var(--lt316-secondary-hover-bg, var(--lt316-secondary-bg, transparent));
+  color: var(--lt316-secondary-hover-text, var(--lt316-secondary-text, currentColor));
+  border-color: var(--lt316-secondary-hover-border, var(--lt316-secondary-border, rgba(0,0,0,0.18)));
 }
 
 .lt316-hero__badges {

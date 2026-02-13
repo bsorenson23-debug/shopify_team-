@@ -2,7 +2,21 @@
   Laser Things 316 - Home Hero (Ascent-friendly)
 {% endcomment %}
 
-<section class="lt316-hero">
+<section
+  class="lt316-hero lt316-hero--{{ section.id }}"
+  style="
+    --lt316-primary-bg: {{ section.settings.primary_button_bg }};
+    --lt316-primary-text: {{ section.settings.primary_button_text }};
+    --lt316-primary-hover-bg: {{ section.settings.primary_button_hover_bg }};
+    --lt316-primary-hover-text: {{ section.settings.primary_button_hover_text }};
+    --lt316-secondary-bg: {{ section.settings.secondary_button_bg }};
+    --lt316-secondary-text: {{ section.settings.secondary_button_text }};
+    --lt316-secondary-border: {{ section.settings.secondary_button_border }};
+    --lt316-secondary-hover-bg: {{ section.settings.secondary_button_hover_bg }};
+    --lt316-secondary-hover-text: {{ section.settings.secondary_button_hover_text }};
+    --lt316-secondary-hover-border: {{ section.settings.secondary_button_hover_border }};
+  "
+>
   <div class="page-width lt316-hero__wrap">
     <div class="lt316-hero__content">
       {% if section.settings.kicker != blank %}
@@ -84,6 +98,30 @@
       "label": "Primary button link"
     },
     {
+      "type": "color",
+      "id": "primary_button_bg",
+      "label": "Primary button background",
+      "default": "#b500b5"
+    },
+    {
+      "type": "color",
+      "id": "primary_button_text",
+      "label": "Primary button text",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "primary_button_hover_bg",
+      "label": "Primary button hover background",
+      "default": "#9400a0"
+    },
+    {
+      "type": "color",
+      "id": "primary_button_hover_text",
+      "label": "Primary button hover text",
+      "default": "#ffffff"
+    },
+    {
       "type": "text",
       "id": "secondary_label",
       "label": "Secondary button label",
@@ -93,6 +131,42 @@
       "type": "url",
       "id": "secondary_link",
       "label": "Secondary button link"
+    },
+    {
+      "type": "color",
+      "id": "secondary_button_bg",
+      "label": "Secondary button background",
+      "default": "#00000000"
+    },
+    {
+      "type": "color",
+      "id": "secondary_button_text",
+      "label": "Secondary button text",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "secondary_button_border",
+      "label": "Secondary button border",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "secondary_button_hover_bg",
+      "label": "Secondary button hover background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "secondary_button_hover_text",
+      "label": "Secondary button hover text",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "secondary_button_hover_border",
+      "label": "Secondary button hover border",
+      "default": "#ffffff"
     },
     {
       "type": "image_picker",
