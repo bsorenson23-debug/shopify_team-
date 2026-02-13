@@ -10,6 +10,69 @@
       margin-bottom: {{ section.settings.margin_bottom }}px;
     }
   }
+
+  {%- if section.settings.enable_compact_cards -%}
+    .section-{{ section.id }}-margin .section__wrapper {
+      border-radius: var(--medium-radius);
+      padding: 1.6rem 2rem;
+    }
+
+    .section-{{ section.id }}-margin .slider-wrapper {
+      --item-min-size: 18rem;
+      --item-perfect-size: 20rem;
+      gap: 1.2rem;
+    }
+
+    .section-{{ section.id }}-margin .collection-card-wrapper .card {
+      background: transparent;
+      border: 0;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      min-height: 5.2rem;
+    }
+
+    .section-{{ section.id }}-margin .collection-card-wrapper .card.card-layout--horizontal .card-inner {
+      width: 5.2rem;
+      min-width: 5.2rem;
+    }
+
+    .section-{{ section.id }}-margin .collection-card-wrapper .card .card-media-wrapper,
+    .section-{{ section.id }}-margin .collection-card-wrapper .card .card-media {
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    .section-{{ section.id }}-margin .collection-card-wrapper .card .card-content .card-buttons {
+      display: none;
+    }
+
+    .section-{{ section.id }}-margin .collection-card-wrapper .card .card-content .card-heading {
+      margin: 0;
+      font-size: 2rem;
+      line-height: 1.2;
+      white-space: nowrap;
+    }
+
+    .section-{{ section.id }}-margin .collection-card-wrapper .card .card-content .card-heading .link {
+      text-decoration: none;
+    }
+
+    @media screen and (max-width: 749px) {
+      .section-{{ section.id }}-margin .section__wrapper {
+        padding: 1.2rem;
+      }
+
+      .section-{{ section.id }}-margin .slider-wrapper {
+        --item-min-size: 14rem;
+        --item-perfect-size: 16rem;
+      }
+
+      .section-{{ section.id }}-margin .collection-card-wrapper .card .card-content .card-heading {
+        font-size: 1.6rem;
+      }
+    }
+  {%- endif -%}
 {%- endstyle -%}
 
 {%- liquid
@@ -81,6 +144,7 @@
                       image_width: perfect_width,
                       image_width_mobile: perfect_width_mobile,
                       heading: block.settings.heading,
+                      show_horizontal: section.settings.enable_compact_cards,
                       content_alignment: section.settings.content_alignment,
                       show_count: section.settings.show_count,
                       placeholder_image: placeholder_image,
@@ -254,6 +318,12 @@
       "id": "show_count",
       "label": "t:sections.collection-list.settings.show_count.label",
       "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_compact_cards",
+      "label": "Enable compact inline cards",
+      "default": false
     },
     {
       "type": "range",
