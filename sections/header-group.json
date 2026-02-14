@@ -129,6 +129,10 @@
         "kicker": "Laser Things 316",
         "heading": "Precision Jigs & Laser-Ready Tools That Just Work",
         "subheading": "Dial in your workflow with purpose-built jigs, hubs, and accessories—designed for repeatable results.",
+        "hero_width": "100%",
+        "hero_height": "clamp(280px, 45vh, 640px)",
+        "hero_max_width": "px",
+        "fit_mode": "cover",
         "primary_label": "Shop Rotary jigs",
         "primary_link": "shopify://collections/rotary-jigs",
         "primary_button_bg": "#b500b5",
@@ -144,10 +148,7 @@
         "secondary_button_hover_text": "#000000",
         "secondary_button_hover_border": "#ffffff",
         "image": "shopify://shop_images/file_00000000cae0720ca1a8fe990a2a7f39.png",
-        "image_alt": "Laser Things 316 jigs and accessories",
-        "badge_1": "Fast shipping",
-        "badge_2": "Shop-built, field tested",
-        "badge_3": "Support if you get stuck"
+        "image_alt": "Laser Things 316 jigs and accessories"
       }
     },
     "blocks_FqGfeY": {
@@ -192,84 +193,12 @@
         "margin_top": 0,
         "margin_bottom": 88
       }
-    },
-    "blocks_hHKBDW": {
-      "type": "_blocks",
-      "blocks": {
-        "ai_gen_block_28208e4_44MHA9": {
-          "type": "ai_gen_block_28208e4",
-          "disabled": true,
-          "settings": {
-            "background_image": "shopify://shop_images/ChatGPT_Image_Feb_12_2026_11_06_25_AM_c176ff60-d336-4773-92ac-35721aa6dc8d.png",
-            "hero_height": 550,
-            "mobile_hero_height": 450,
-            "show_overlay": true,
-            "overlay_color": "#000000",
-            "overlay_opacity": 50,
-            "content_padding_left": 80,
-            "content_padding_right": 50,
-            "content_padding_vertical": 60,
-            "content_max_width": 600,
-            "mobile_padding_horizontal": 20,
-            "mobile_padding_vertical": 40,
-            "text_alignment": "left",
-            "mobile_text_alignment": "left",
-            "content_spacing": 20,
-            "heading": "Precision Jigs & Laser-Ready Tools That Just Work",
-            "heading_size": 56,
-            "mobile_heading_size": 36,
-            "heading_color": "#ffffff",
-            "heading_weight": "700",
-            "subheading": "Dial in your workflow with purpose-built jigs, hubs, and accessories—designed for repeatable results.",
-            "subheading_size": 20,
-            "mobile_subheading_size": 16,
-            "subheading_color": "#ffffff",
-            "text": "<p>Shop the newest styles and trends</p>",
-            "text_size": 16,
-            "mobile_text_size": 14,
-            "text_color": "#ffffff",
-            "text_max_width": 600,
-            "primary_btn_text": "Shop Rotary jigs",
-            "primary_button_link": "shopify://collections/rotary-jigs",
-            "primary_button_bg": "#b500b5",
-            "primary_button_text_color": "#ffffff",
-            "primary_button_hover_bg": "#9400a0",
-            "primary_button_hover_text": "#ffffff",
-            "secondary_btn_text": "Learn more",
-            "secondary_button_link": "",
-            "secondary_button_bg": "rgba(0,0,0,0)",
-            "secondary_button_text_color": "#ffffff",
-            "secondary_button_border": "#ffffff",
-            "secondary_button_hover_bg": "#ffffff",
-            "secondary_button_hover_text": "#000000",
-            "secondary_button_hover_border": "#ffffff",
-            "button_padding_vertical": 14,
-            "button_padding_horizontal": 32,
-            "button_text_size": 16,
-            "button_border_radius": 4,
-            "button_spacing": 12
-          },
-          "blocks": {}
-        }
-      },
-      "block_order": [
-        "ai_gen_block_28208e4_44MHA9"
-      ],
-      "name": "Hero section",
-      "settings": {
-        "enable_full_width": true,
-        "padding_top": 40,
-        "padding_bottom": 52,
-        "margin_top": 0,
-        "margin_bottom": 88
-      }
     }
   },
   "order": [
     "announcement_bar_ELtzAV",
     "header",
     "lt316_hero_EkNqLH",
-    "blocks_FqGfeY",
-    "blocks_hHKBDW"
+    "blocks_FqGfeY"
   ]
 }
