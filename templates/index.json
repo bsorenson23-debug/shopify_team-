@@ -142,59 +142,6 @@
     },
     "collection_list_nG7eMw": {
       "type": "collection-list",
-      "blocks": {
-        "featured_collection_Pbz7px": {
-          "type": "featured_collection",
-          "settings": {
-            "collection": "rotary-jigs",
-            "heading": "All Rotary Jigs"
-          }
-        },
-        "featured_collection_hX6f7W": {
-          "type": "featured_collection",
-          "disabled": true,
-          "settings": {
-            "collection": "",
-            "heading": ""
-          }
-        },
-        "featured_collection_8B7dL8": {
-          "type": "featured_collection",
-          "settings": {
-            "collection": "laser-accessories-brain3d",
-            "heading": "Laser Accessories"
-          }
-        },
-        "featured_collection_xiPagM": {
-          "type": "featured_collection",
-          "settings": {
-            "collection": "high-capacity-rotary-jigs-1",
-            "heading": "High-Capacity Jigs"
-          }
-        },
-        "featured_collection_eRVxDt": {
-          "type": "featured_collection",
-          "settings": {
-            "collection": "table-style-rotary-jigs-1",
-            "heading": "Flat/Table Jigs"
-          }
-        },
-        "featured_collection_jctajV": {
-          "type": "featured_collection",
-          "settings": {
-            "collection": "",
-            "heading": ""
-          }
-        }
-      },
-      "block_order": [
-        "featured_collection_Pbz7px",
-        "featured_collection_hX6f7W",
-        "featured_collection_8B7dL8",
-        "featured_collection_xiPagM",
-        "featured_collection_eRVxDt",
-        "featured_collection_jctajV"
-      ],
       "custom_css": [],
       "name": "t:sections.collection-list.presets.name",
       "settings": {
