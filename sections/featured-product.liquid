@@ -362,7 +362,13 @@
                 {%- when 'related_categories' -%}
                   {%- if product.collections.size > 0 and product.collections != blank -%}
                     <div class="product-related-categories product-info-block" {{ block.shopify_attributes }}>
-                      <div class="info-block-heading font-heading">{{ 'products.product.related_categories' | t }}</div>
+                      <div class="info-block-heading font-heading">
+                        {%- if block.settings.heading != blank -%}
+                          {{- block.settings.heading | escape -}}
+                        {%- else -%}
+                          {{- 'products.product.related_categories' | t -}}
+                        {%- endif -%}
+                      </div>
                       {% render 'product-related-categories',
                         product: product,
                         max_to_show: block.settings.max_to_show
@@ -1088,6 +1094,12 @@
           "max": 10,
           "step": 1,
           "default": 5
+        },
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading",
+          "default": "Related categories"
         }
       ]
     },
