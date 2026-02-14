@@ -230,3 +230,14 @@
 .shopify-section .card--collection .card__content {
   padding: 14px 14px 16px;
 }
+
+/* === Featured Categories label cleanup === */
+/* Targets common Ascent blocks: multicolumn / collection list / icon-with-text style rows */
+.multicolumn .multicolumn-card__info .inline-richtext,
+.multicolumn .multicolumn-card__info .h3,
+.collection-list .card__heading,
+.collection-list .card__caption,
+.icon-with-text__text,
+.featured-categories a {
+  display: none !important;
+}
