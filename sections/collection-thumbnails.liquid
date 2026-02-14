@@ -32,7 +32,7 @@
           <ul id="Scrollable-Content-{{ section.id }}" class="scrollable-content-wrapper collection-list style--{{ section.settings.style }}{% if section.settings.adapt_transparent_image %} adapt-transparent-image{% endif %}">
               {%- for block in section.blocks -%}
                  {% assign title = block.settings.heading | escape | default: block.settings.collection.title %}
-                  <li class="collection-item hover-trigger{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+                  <li class="collection-item collection-thumbnails__item hover-trigger{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
                       tabindex="0"
                       {% if settings.animations_reveal_on_scroll %}
                         data-cascade
@@ -40,7 +40,7 @@
                       {% endif %}
                       {{ block.shopify_attributes }}
                   >
-                      <div class="image-wrapper media media--square{% unless section.settings.adapt_transparent_image %} media--circle{% endunless %}">
+                      <div class="image-wrapper collection-thumbnails__media media media--square{% unless section.settings.adapt_transparent_image %} media--circle{% endunless %}">
                         {%- if block.settings.image != blank -%}
                           {{ block.settings.image | image_url: width: 300 | image_tag: loading: 'lazy', class: 'animate--scale-up' }}
                         {%- else -%}
