@@ -12,6 +12,9 @@
   }
 
   {%- if section.settings.enable_compact_cards -%}
+    .section-{{ section.id }}-margin .slider-wrapper {
+      --item-min-size: 12rem;
+      --item-perfect-size: 16rem;
     .section-{{ section.id }}-margin .section__wrapper {
       border-radius: var(--medium-radius);
       padding: 1.6rem 2rem;
