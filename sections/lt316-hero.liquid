@@ -1,10 +1,14 @@
 {% comment %}
-  Laser Things 316 - Home Hero (Ascent-friendly)
+  Laser Things 316 - Responsive Hero Banner
 {% endcomment %}
 
 <section
   class="lt316-hero lt316-hero--{{ section.id }}"
+  {% if section.settings.fit_mode == 'contain' %}data-fit="contain"{% endif %}
   style="
+    --hero-width: {{ section.settings.hero_width | default: '100%' }};
+    --hero-height: {{ section.settings.hero_height | default: 'clamp(280px, 45vh, 640px)' }};
+    --hero-max-width: {{ section.settings.hero_max_width | default: '1200px' }};
     --lt316-primary-bg: {{ section.settings.primary_button_bg }};
     --lt316-primary-text: {{ section.settings.primary_button_text }};
     --lt316-primary-hover-bg: {{ section.settings.primary_button_hover_bg }};
@@ -17,49 +21,49 @@
     --lt316-secondary-hover-border: {{ section.settings.secondary_button_hover_border }};
   "
 >
-  <div class="page-width lt316-hero__wrap">
-    <div class="lt316-hero__content">
-      {% if section.settings.kicker != blank %}
-        <p class="lt316-hero__kicker">{{ section.settings.kicker }}</p>
-      {% endif %}
-
-{% if section.settings.heading != blank %}
-  <h2 class="lt316-hero__heading">{{ section.settings.heading }}</h2>
-{% endif %}
-
-      {% if section.settings.subheading != blank %}
-        <p class="lt316-hero__subheading">{{ section.settings.subheading }}</p>
-      {% endif %}
-
-      <div class="lt316-hero__cta">
-        {% if section.settings.primary_label != blank and section.settings.primary_link != blank %}
-          <a class="lt316-btn lt316-btn--primary" href="{{ section.settings.primary_link }}">
-            {{ section.settings.primary_label }}
-          </a>
-        {% endif %}
-
-        {% if section.settings.secondary_label != blank and section.settings.secondary_link != blank %}
-          <a class="lt316-btn lt316-btn--secondary" href="{{ section.settings.secondary_link }}">
-            {{ section.settings.secondary_label }}
-          </a>
-        {% endif %}
+  <div class="lt316-hero__banner" role="region" aria-label="Hero banner">
+    {% if section.settings.image != blank %}
+      {{
+        section.settings.image
+        | image_url: width: 4400
+        | image_tag: loading: 'lazy', class: 'lt316-hero__img', alt: section.settings.image_alt | escape
+      }}
+    {% else %}
+      <div class="lt316-hero__placeholder" role="img" aria-label="No hero image selected">
+        <p>Add a hero image in this section’s settings.</p>
       </div>
+    {% endif %}
 
-      <ul class="lt316-hero__badges" aria-label="Store highlights">
-        {% if section.settings.badge_1 != blank %}<li>{{ section.settings.badge_1 }}</li>{% endif %}
-        {% if section.settings.badge_2 != blank %}<li>{{ section.settings.badge_2 }}</li>{% endif %}
-        {% if section.settings.badge_3 != blank %}<li>{{ section.settings.badge_3 }}</li>{% endif %}
-      </ul>
-    </div>
+    <div class="lt316-hero__overlay" aria-hidden="true"></div>
 
-     <div class="lt316-hero__media">
-      {% if section.settings.image != blank %}
-        {{ section.settings.image | image_url: width: 1400 | image_tag: loading: 'lazy', class: 'lt316-hero__img', alt: section.settings.image_alt | escape }}
-      {% else %}
-        <div class="lt316-hero__placeholder">
-          <p>Add a hero image in this section’s settings.</p>
+    <div class="lt316-hero__content-wrap page-width">
+      <header class="lt316-hero__content">
+        {% if section.settings.kicker != blank %}
+          <p class="lt316-hero__kicker">{{ section.settings.kicker }}</p>
+        {% endif %}
+
+        {% if section.settings.heading != blank %}
+          <h2 class="lt316-hero__heading">{{ section.settings.heading }}</h2>
+        {% endif %}
+
+        {% if section.settings.subheading != blank %}
+          <p class="lt316-hero__subheading">{{ section.settings.subheading }}</p>
+        {% endif %}
+
+        <div class="lt316-hero__cta">
+          {% if section.settings.primary_label != blank and section.settings.primary_link != blank %}
+            <a class="lt316-btn lt316-btn--primary" href="{{ section.settings.primary_link }}">
+              {{ section.settings.primary_label }}
+            </a>
+          {% endif %}
+
+          {% if section.settings.secondary_label != blank and section.settings.secondary_link != blank %}
+            <a class="lt316-btn lt316-btn--secondary" href="{{ section.settings.secondary_link }}">
+              {{ section.settings.secondary_label }}
+            </a>
+          {% endif %}
         </div>
-      {% endif %}
+      </header>
     </div>
   </div>
 </section>
@@ -85,6 +89,40 @@
       "id": "subheading",
       "label": "Subheadline",
       "default": "Dial in your workflow with purpose-built jigs, hubs, and accessories—designed for repeatable results."
+    },
+    {
+      "type": "text",
+      "id": "hero_width",
+      "label": "Hero width (CSS value)",
+      "default": "100%"
+    },
+    {
+      "type": "text",
+      "id": "hero_height",
+      "label": "Hero height (CSS value)",
+      "default": "clamp(280px, 45vh, 640px)"
+    },
+    {
+      "type": "text",
+      "id": "hero_max_width",
+      "label": "Hero max width (CSS value)",
+      "default": "1200px"
+    },
+    {
+      "type": "select",
+      "id": "fit_mode",
+      "label": "Image fit mode",
+      "default": "cover",
+      "options": [
+        {
+          "value": "cover",
+          "label": "Cover"
+        },
+        {
+          "value": "contain",
+          "label": "Contain"
+        }
+      ]
     },
     {
       "type": "text",
@@ -178,24 +216,6 @@
       "id": "image_alt",
       "label": "Hero image alt text",
       "default": "Laser Things 316 jigs and accessories"
-    },
-    {
-      "type": "text",
-      "id": "badge_1",
-      "label": "Badge 1",
-      "default": "Fast shipping"
-    },
-    {
-      "type": "text",
-      "id": "badge_2",
-      "label": "Badge 2",
-      "default": "Shop-built, field tested"
-    },
-    {
-      "type": "text",
-      "id": "badge_3",
-      "label": "Badge 3",
-      "default": "Support if you get stuck"
     }
   ],
   "presets": [

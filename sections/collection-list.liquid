@@ -15,6 +15,15 @@
     .section-{{ section.id }}-margin .slider-wrapper {
       --item-min-size: 12rem;
       --item-perfect-size: 16rem;
+    .section-{{ section.id }}-margin .section__wrapper {
+      border-radius: var(--medium-radius);
+      padding: 1.6rem 2rem;
+    }
+
+    .section-{{ section.id }}-margin .slider-wrapper {
+      --item-min-size: 18rem;
+      --item-perfect-size: 20rem;
+      gap: 1.2rem;
     }
 
     .section-{{ section.id }}-margin .collection-card-wrapper .card {
@@ -23,6 +32,7 @@
       display: flex;
       align-items: center;
       gap: 1rem;
+      min-height: 5.2rem;
     }
 
     .section-{{ section.id }}-margin .collection-card-wrapper .card.card-layout--horizontal .card-inner {
@@ -44,10 +54,26 @@
       margin: 0;
       font-size: 2rem;
       line-height: 1.2;
+      white-space: nowrap;
     }
 
     .section-{{ section.id }}-margin .collection-card-wrapper .card .card-content .card-heading .link {
       text-decoration: none;
+    }
+
+    @media screen and (max-width: 749px) {
+      .section-{{ section.id }}-margin .section__wrapper {
+        padding: 1.2rem;
+      }
+
+      .section-{{ section.id }}-margin .slider-wrapper {
+        --item-min-size: 14rem;
+        --item-perfect-size: 16rem;
+      }
+
+      .section-{{ section.id }}-margin .collection-card-wrapper .card .card-content .card-heading {
+        font-size: 1.6rem;
+      }
     }
   {%- endif -%}
 {%- endstyle -%}
